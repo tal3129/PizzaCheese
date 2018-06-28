@@ -10,42 +10,27 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-
-import com.cheeze.pizza.pizzacheeze.types.AppSettings;
-import com.cheeze.pizza.pizzacheeze.types.Discount;
-import com.cheeze.pizza.pizzacheeze.types.MyWheelItem;
-import com.cheeze.pizza.pizzacheeze.types.Order;
-import com.cheeze.pizza.pizzacheeze.types.Pasta;
-import com.cheeze.pizza.pizzacheeze.types.Pic;
-import com.cheeze.pizza.pizzacheeze.types.PicList;
-import com.cheeze.pizza.pizzacheeze.types.Pizza;
-import com.cheeze.pizza.pizzacheeze.types.Product;
-import com.cheeze.pizza.pizzacheeze.types.SpecialProductLists;
-import com.cheeze.pizza.pizzacheeze.types.ToppingProduct;
+import com.cheeze.pizza.pizzacheeze.types.*;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
-
+import me.itangqi.waveloadingview.WaveLoadingView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import me.itangqi.waveloadingview.WaveLoadingView;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -62,6 +47,7 @@ public class SplashActivity extends AppCompatActivity {
     public static ArrayList<Product> productArrayList = new ArrayList<>();
     public static ArrayList<Discount> discountArrayList = new ArrayList<>();
     public static ArrayList<MyWheelItem> myWheelItems = new ArrayList<>();
+    public static ArrayList<ShipLocation> shipLocations = new ArrayList<>();
     private int dbStorageVersion;
 
     // the discounts
@@ -108,6 +94,7 @@ public class SplashActivity extends AppCompatActivity {
         databaseProducts = FirebaseDatabase.getInstance().getReference("Products");
         picStorage = FirebaseStorage.getInstance().getReference("pictures");
         thisContext = getBaseContext();
+        FirebaseMessaging.getInstance().subscribeToTopic("Notifications");
 
         downloadAppSettings();
 
@@ -121,20 +108,39 @@ public class SplashActivity extends AppCompatActivity {
 
         downloadDiscounts();
 
+        downloadShipLocations();
+
         getPicListFromSP();
+    }
+
+    private void downloadShipLocations() {
+        DatabaseReference shipLocRef = FirebaseDatabase.getInstance().getReference("ShipLocations");
+        shipLocRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                shipLocations.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                    shipLocations.add(snapshot.getValue(ShipLocation.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void downloadWheelItems() {
         databaseWheelItems.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myWheelItems.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                     myWheelItems.add(snapshot.getValue(MyWheelItem.class));
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -142,7 +148,7 @@ public class SplashActivity extends AppCompatActivity {
     private void downloadDiscounts() {
         databaseDiscounts.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     discountArrayList.add(snapshot.getValue(Discount.class));
                     if (discountArrayList.get(discountArrayList.size() - 1).getId().equals("toppingsDiscount") && discountArrayList.get(discountArrayList.size() - 1).isActive())
@@ -151,7 +157,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -168,7 +174,7 @@ public class SplashActivity extends AppCompatActivity {
         DatabaseReference dbStorageVersionRef = FirebaseDatabase.getInstance().getReference("versions").child("storageVersion");
         dbStorageVersionRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dbStorageVersion = dataSnapshot.getValue(Integer.class);
                 if (picList.getVersion() == dbStorageVersion)
                     needToDownloadPics = false;
@@ -181,7 +187,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -190,7 +196,7 @@ public class SplashActivity extends AppCompatActivity {
     public void downloadProducts(){
         databaseProducts.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 productArrayList.clear();
                 maxValue = (int) dataSnapshot.getChildrenCount();
 
@@ -243,7 +249,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -285,13 +291,13 @@ public class SplashActivity extends AppCompatActivity {
         appSettings = FirebaseDatabase.getInstance().getReference("AppSettings");
         appSettings.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myAppSettings = dataSnapshot.getValue(AppSettings.class);
                 setUpdateRequirement();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 myAppSettings = new AppSettings(getString(R.string.defaultReciverMail), false, false, "1", 5, 0);
             }
         });

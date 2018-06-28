@@ -10,29 +10,6 @@
     <string name="senderBackupMail">pizzacheeseprinter@gmail.com</string>
     <string name="senderBackupPassword">cheesetal</string>
 
-
-    <array name="cities">
-        <!--(0-1) 18 ש"ח משלוח -->
-        <item>מודיעין מכבים רעות</item>
-        <item>אשדוד</item>
-        <!--(2-8) 22 ש"ח משלוח-->
-        <item>שילת</item>
-        <item>כפר רות</item>
-        <item>כפר אורנים</item>
-        <item>לפיד</item>
-        <item>מחסום מכבים</item>
-        <item>ישפרו סנטר</item>
-        <item>ליגד סנטר</item>
-        <!-- (9-11) 28 ש"ח משלוח-->
-        <item>חשמונאים</item>
-        <item>מתיתיהו</item>
-        <item>קריית ספר</item>
-        <!-- (12-13) 30 ש"ח משלוח-->
-        <item>שעלבים</item>
-        <item>מתקן אדם</item>
-    </array>
-
-
     <string name="fui_phone_hint" translation_description="Hint for phone input field">מספר טלפון</string>
     <string name="fui_verify_phone_number_title" translation_description="Phone number entry form title">הכנס מספר טלפון</string>
     <string name="fui_invalid_phone_number" translation_description="Inline error when phone number entered is invalid">אנא הכנס מספר טלפון תקין</string>
