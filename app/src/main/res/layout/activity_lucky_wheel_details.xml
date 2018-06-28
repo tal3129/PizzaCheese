@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:id="@+id/mainLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cheeze.pizza.pizzacheeze.LuckyWheelDetails">
+
+
+    <RelativeLayout
+        android:onClick="close"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#e4e4ea">
+
+
+        <ImageView
+            android:onClick="close"
+            android:id="@+id/btnContinue"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_arrow_back_white_48dp_red" />
+
+        <TextView
+            android:onClick="close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/btnContinue"
+            android:gravity="center"
+            android:text="רשימת פרסים"
+            android:textColor="#c0232c"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+    <com.lb.auto_fit_textview.AutoResizeTextView
+        android:layout_marginTop="5dp"
+        android:textStyle="italic"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textSize="1000sp"
+        android:text="סובב את גלגל המזל לאחר כל הזמנה וזכה בפרסים להזמנה הבאה"/>
+
+    <ScrollView
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <LinearLayout
+        android:id="@+id/LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

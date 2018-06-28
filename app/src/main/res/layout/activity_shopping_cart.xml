@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shoppingCartMainLayoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f7"
+    android:orientation="vertical"
+    tools:context="com.cheeze.pizza.pizzacheeze.ShoppingCart">
+
+    <RelativeLayout
+        android:id="@+id/cartTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#e4e4ea">
+
+
+            <ImageView
+                android:id="@+id/btnContinue"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_arrow_back_white_48dp_red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/btnContinue"
+                android:gravity="center"
+                android:text="המשך קניה"
+                android:textColor="#c0232c"
+                android:textSize="20sp" />
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnFinishOrder"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#c0232c"
+        android:text="לתשלום"
+        android:textColor="#ffffff"
+        android:textSize="25sp" />
+
+
+    <RelativeLayout
+        android:id="@+id/priceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@id/btnFinishOrder"
+        android:background="#e4e4ea">
+
+        <TextView
+            android:id="@+id/tw1"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="סך הכל"
+            android:textColor="#c0232c"
+            android:textSize="21sp" />
+
+        <TextView
+            android:id="@+id/tvTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/tw1"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#c0232c"
+            android:textSize="21sp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/listViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cartTitle"
+        android:layout_above="@+id/priceLayout"
+        android:layout_alignParentStart="true">
+
+
+        <ListView
+            android:id="@+id/lwCartList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="13.0sp"
+            android:listSelector="@android:color/transparent"
+            />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

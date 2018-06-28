@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_marginTop="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#f0f0f7"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivRemoveItem"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_cancel_black_48dp"
+        android:alpha="0.4"
+        android:layout_alignBottom="@+id/priceLayout"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/ivRemoveItem"
+        android:gravity="center"
+        android:text="פיצה משפחתית"
+        android:textSize="20sp"
+        android:layout_alignBottom="@+id/priceLayout"
+        android:layout_alignParentTop="true" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tvProductName"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/rounded_corners"
+        android:alpha="0.35"
+        android:id="@+id/priceLayout">
+
+    <TextView
+        android:textDirection="rtl"
+        android:textSize="20sp"
+        android:id="@+id/tvProductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="19.90₪"
+        android:layout_margin="5dp"
+        />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:alpha="0.40"
+        android:id="@+id/button2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="ערוך"
+        android:src="@drawable/ic_edit_black_48dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_alignBottom="@+id/priceLayout"
+        android:layout_toLeftOf="@id/priceLayout"
+        />
+
+
+
+</RelativeLayout>

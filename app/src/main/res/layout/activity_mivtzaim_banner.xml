@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/freeProductDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cheeze.pizza.pizzacheeze.FreeProductsBanner"
+    android:orientation="horizontal"
+    >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+        <ImageView
+            android:id="@+id/scrollLeftArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/scroll_left_arrow"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:alpha="0.4"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        >
+
+    <android.support.v4.view.ViewPager
+        android:layout_weight="5"
+        android:id="@+id/pagers"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        >
+
+    </android.support.v4.view.ViewPager>
+
+        <Button
+            android:id="@+id/btnFinishMivtzaim"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@color/colorAccent"
+            android:text="אישור"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+          />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+        <ImageView
+            android:id="@+id/scrollRightArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/scroll_right_arrow"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

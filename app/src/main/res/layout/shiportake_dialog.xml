@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_margin="15dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fui_transparent"
+    >
+
+
+
+
+    <ImageView
+        android:id="@+id/btnTake"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pick_up_icon_dialog" />
+
+    <ImageView
+        android:id="@+id/btnShip"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/order_icon_dialog"
+        android:layout_below="@id/btnTake"
+        android:layout_marginTop="35dp" />
+
+</RelativeLayout>

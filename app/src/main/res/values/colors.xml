@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ac1f26</color>
+    <color name="colorPrimaryDark">#9a1c22</color>
+    <color name="colorAccent">#c0232c</color>
+    <color name="cart_color">#ffcdd2</color>
+    <color name="white">#ffffff</color>
+    <color name="error">#ef9a9a</color>
+    <color name="grey">#bdbdbd</color>
+    <color name="greyLight">#e4e5e6</color>
+    <color name="cardTextColor">#d17a80</color>
+
+    <!--lucky wheel colors-->
+    <color name="freeOrder">#f9a825</color>
+    <color name="freeToppings">#00695c</color>
+    <color name="freeTropit">#6200ea</color>
+    <color name="oneFreeTopping">#afb42b</color>
+    <color name="freeGarlic">#FF64DD17</color>
+    <color name="freeZiva">#FF039BE5</color>
+    <color name="freeCola">#ea80fc</color>
+
+
+</resources>

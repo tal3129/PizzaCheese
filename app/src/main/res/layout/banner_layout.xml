@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    android:id="@+id/mainBannerLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:background="#e4e4ea"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textStyle="bold"
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:text="תוספת בריאה"
+        android:textColor="#c0232c"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/ivProd"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/tvTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
+    <com.lb.auto_fit_textview.AutoResizeTextView
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:id="@+id/tvDescription"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivProd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="סלט יווני ב 5 בלבד" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
+
+        android:background="@color/colorAccent"
+        android:text="הוסף לסל"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_marginStart="10dp"
+        android:id="@+id/btnDismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnAdd"
+        android:layout_alignBottom="@+id/btnAdd"
+        android:layout_alignParentStart="true"
+        android:text="לא מעוניין"
+        android:textSize="12sp" />
+    <Button
+        android:id="@+id/btnBannerFinish"
+        android:visibility="invisible"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
+        android:text="אישור"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cheeze.pizza.pizzacheeze"
+    android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/home_screen_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/home_screen_logo"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme"
+        tools:replace=" android:supportsRtl , android:icon ">
+        <uses-library android:name="com.google.android.maps" />
+
+        <!--
+     The API key for Google Maps-based APIs is defined as a string resource.
+     (See the file "res/values/google_maps_api.xml").
+     Note that the API key is linked to the encryption key used to sign the APK.
+     You need a different API key for each encryption key, including the release key that is used to
+     sign the APK for publishing.
+     You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ChooseType"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ChooseProduct"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ShoppingCart"
+            android:theme="@style/popupTheme" />
+
+        <activity
+            android:name=".TakeForm"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ShipForm"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".EditPizza"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".CreditCardForm"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".EditToppings"
+            android:theme="@style/popupTheme" />
+
+        <activity
+            android:name=".EditCartItem"
+            android:theme="@style/popupTheme" />
+
+        <activity
+            android:name=".Info"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".SetProductToppingActivity"
+            android:theme="@style/popupTheme" />
+
+        <activity
+            android:name=".LuckyWheel"
+            android:theme="@style/popupTheme" />
+
+        <activity
+            android:name=".LuckyWheelDetails"
+            android:theme="@style/popupTheme" />
+
+        <activity
+            android:name=".FreeProductsBanner"
+            android:theme="@style/popupThemeTransperment" />
+
+        <activity
+            android:name=".MivtzaimBanner"
+            android:theme="@style/popupThemeTransperment" />
+    </application>
+
+</manifest>
