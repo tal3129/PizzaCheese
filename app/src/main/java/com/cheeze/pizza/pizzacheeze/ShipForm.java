@@ -3,36 +3,18 @@ package com.cheeze.pizza.pizzacheeze;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
-import com.cheeze.pizza.pizzacheeze.MailSender.GMailSender;
+import android.widget.*;
 import com.cheeze.pizza.pizzacheeze.types.DailyEarning;
 import com.cheeze.pizza.pizzacheeze.types.Product;
 import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
+import com.google.firebase.database.*;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Minutes;
@@ -44,22 +26,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+@SuppressWarnings("Duplicates")
 public class ShipForm extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvTime, shipPrice, tvTotalPrice, tvDate;
-    EditText name, phone, address;
-    Button btnChooseTime, btFinish;
-    ImageView btnCash, btnCC;
+    static Product shipment = new Product(UUID.randomUUID().toString(), "משלוח", 18, "משלוח");
+    private final int RC_VERIFY_CASH_PAYMENT = 123;
+    private final int RC_VERIFY_CC_PAYMENT = 234;
     int nMinute, nHour;
-    String cPhoneNumber, cName, cArrivalTime, cArea, cAddress;
+    private final int RC_GET_CREDIT_INFO = 126;
     Spinner spinnerCity;
-    Dialog d;
+    private EditText name, phone, address;
     private DatabaseReference earningsRef;
     private DailyEarning todayEarning;
-    public static Product shipment = new Product(UUID.randomUUID().toString(), "משלוח", 18, "משלוח");
-    final int RC_VERIFY_CASH_PAYMENT = 123;
-    final int RC_VERIFY_CC_PAYMENT = 234;
-    final int RC_GET_CREDIT_INFO = 126;
+    private Button btnChooseTime, btFinish;
+    private ImageView btnCash, btnCC;
+    private String cPhoneNumber, cName, cArrivalTime, cArea, cAddress;
+    private Dialog d;
     int width;
 
     private boolean anotherDay = false;
@@ -108,8 +91,7 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
         btFinish = findViewById(R.id.btnFinish);
 
         spinnerCity = findViewById(R.id.spinnerCity);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, SplashActivity.shipLocations);
         spinnerCity.setAdapter(adapter);
 
         //if there was a previous order, set it
@@ -129,16 +111,7 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String s = "עלות משלוח ";
-                if (position < 2) {
-                    shipment.setPrice(18);
-                } else if (position < 9) {
-                    shipment.setPrice(22);
-                } else if (position < 12) {
-                    shipment.setPrice(28);
-                } else {
-                    shipment.setPrice(30);
-                }
-
+                shipment.setPrice(SplashActivity.shipLocations.get(position).getPrice());
                 DecimalFormat df = new DecimalFormat("#.00");
                 tvTotalPrice.setText("₪" + df.format(SplashActivity.order.getCart().getSum() + shipment.getPrice()));
                 shipPrice.setText(s + "₪" + (df.format(shipment.getPrice())));
@@ -152,7 +125,6 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
 
         btFinish.setOnClickListener(this);
         btnChooseTime.setOnClickListener(this);
-
 
 
     }
@@ -258,15 +230,16 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
             finishOrder();
         }
     }
+
     //return true if the chosen time is within 50 minutes
-    public boolean moreThanFifty(LocalTime chosenTime) {
+    private boolean moreThanFifty(LocalTime chosenTime) {
         LocalTime now = LocalTime.now();
         int minutesDiff = Minutes.minutesBetween(now, chosenTime).getMinutes();
         return (minutesDiff >= 50);
     }
 
 
-    public void buildTimePickerDialog() {
+    private void buildTimePickerDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.timepicker_dialog);
         Button btnFinish = dialog.findViewById(R.id.btnFinish);
@@ -325,14 +298,14 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
         dialog.show();
     }
 
-    public void finishOrder() {
+    private void finishOrder() {
         //setup the last order according to the specified details
         SplashActivity.order.setShipment(true);
         SplashActivity.order.setcName(cName);
         SplashActivity.order.setPhoneNumber(cPhoneNumber);
         SplashActivity.order.setArea(cArea);
         SplashActivity.order.setAddress(cAddress);
-        SplashActivity.order.setArrivalTime(tvTime.getText().toString());
+        SplashActivity.order.setArrivalTime(cArrivalTime);
         SplashActivity.order.getCart().addProduct(shipment);
 
         saveThisEarning();
@@ -342,7 +315,7 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
     }
 
 
-    public void saveThisEarning() {
+    private void saveThisEarning() {
         //update the daily earnings in the database
         //if there were no earnings today, create a new earning row
         if (todayEarning == null) {
