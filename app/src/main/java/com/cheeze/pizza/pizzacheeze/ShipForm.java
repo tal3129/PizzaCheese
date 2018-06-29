@@ -80,6 +80,7 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
         final Display display = this.getWindowManager().getDefaultDisplay();
         width = display.getWidth();
 
+
         tvDate = findViewById(R.id.tvDate);
         shipPrice = findViewById(R.id.shipPrice);
         tvTime = findViewById(R.id.tvTime);
