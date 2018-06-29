@@ -30,6 +30,7 @@ import me.itangqi.waveloadingview.WaveLoadingView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -121,6 +122,8 @@ public class SplashActivity extends AppCompatActivity {
                 shipLocations.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                     shipLocations.add(snapshot.getValue(ShipLocation.class));
+
+                Collections.sort(shipLocations,(s1, s2)->(int) (s1.getPrice() - s2.getPrice()));
             }
 
             @Override

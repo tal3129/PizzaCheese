@@ -30,9 +30,7 @@ public class AddProductDialog extends Dialog {
 
     public static int button_finish_order_id;
     public static int button_contoniue_id;
-
     public static Product product;
-
 
     RelativeLayout mainLayout;
     RelativeLayout.LayoutParams mainLayoutParams;
