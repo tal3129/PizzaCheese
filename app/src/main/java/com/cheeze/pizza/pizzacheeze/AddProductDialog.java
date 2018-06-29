@@ -35,6 +35,7 @@ public class AddProductDialog extends Dialog {
     RelativeLayout mainLayout;
     RelativeLayout.LayoutParams mainLayoutParams;
 
+
     Button bFinishOrder;
     RelativeLayout.LayoutParams bFinishOrderParams;
 
