@@ -6,9 +6,9 @@ package com.cheeze.pizza.pizzacheeze.types;
 
 
 public class AppSettings {
+    private boolean luckyWheelEnabled;
     private String receiverMail;
     private boolean appStatus;
-    private boolean creditCardStatus;
     private String appVersion;
     private Boolean ccStatus;
     private double minWheelSum;
@@ -23,9 +23,17 @@ public class AppSettings {
         this.minWheelSum=minWheelSum;
         this.appVersionCode = appVersionCode;
     }
+
     public AppSettings(){
     }
 
+    public boolean isLuckyWheelEnabled() {
+        return luckyWheelEnabled;
+    }
+
+    public void setLuckyWheelEnabled(boolean luckyWheelEnabled) {
+        this.luckyWheelEnabled = luckyWheelEnabled;
+    }
 
     public int getAppVersionCode() {
         return appVersionCode;
@@ -55,18 +63,9 @@ public class AppSettings {
         return receiverMail;
     }
 
-    public boolean getAppStatus(){
+    public boolean isAppStatus() {
         return this.appStatus;
     }
-
-    public boolean isCreditCardStatus() {
-        return creditCardStatus;
-    }
-
-    public void setCreditCardStatus(boolean creditCardStatus) {
-        this.creditCardStatus = creditCardStatus;
-    }
-
 
     public String getAppVersion() {
         return appVersion;

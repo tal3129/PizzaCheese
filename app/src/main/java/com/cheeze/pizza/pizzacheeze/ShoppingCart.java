@@ -1,29 +1,21 @@
 package com.cheeze.pizza.pizzacheeze;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.cheeze.pizza.pizzacheeze.CustomViews.Banner;
 import com.cheeze.pizza.pizzacheeze.cardListsAdapters.CartAdapter;
 import com.cheeze.pizza.pizzacheeze.cardListsAdapters.CartRow;
 import com.cheeze.pizza.pizzacheeze.types.Product;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ShoppingCart extends Activity implements View.OnClickListener {
     ListView cartList;
@@ -103,8 +95,7 @@ public class ShoppingCart extends Activity implements View.OnClickListener {
 
 
     public void setPopupSize() {
-        findViewById(R.id.shoppingCartMainLayoot).getLayoutParams().width
-                = popupWidth;
+        findViewById(R.id.shoppingCartMainLayoot).getLayoutParams().width = popupWidth;
         findViewById(R.id.shoppingCartMainLayoot).getLayoutParams().height = popupHeight;
     }
 
@@ -126,9 +117,7 @@ public class ShoppingCart extends Activity implements View.OnClickListener {
                     Toast.makeText(ShoppingCart.this, R.string.plsUpdate, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Intent.ACTION_VIEW , Uri.parse("market://details?id=com.cheeze.pizza.pizzacheeze"));
                     startActivity(intent);
-                }
-
-                else if (!SplashActivity.myAppSettings.getAppStatus())
+                } else if (!SplashActivity.myAppSettings.isAppStatus())
                     Toast.makeText(this, R.string.appInactive, Toast.LENGTH_SHORT).show();
                 else {
                     //if there are products to show, show a banner of one of them at random

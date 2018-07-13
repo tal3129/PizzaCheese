@@ -3,7 +3,6 @@ package com.cheeze.pizza.pizzacheeze;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -20,25 +19,15 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-
-import com.cheeze.pizza.pizzacheeze.CustomViews.Banner;
 import com.cheeze.pizza.pizzacheeze.MailSender.GMailSender;
 import com.cheeze.pizza.pizzacheeze.MailSender.OutlookSender;
-import com.cheeze.pizza.pizzacheeze.types.Discount;
-import com.cheeze.pizza.pizzacheeze.types.Order;
-import com.cheeze.pizza.pizzacheeze.types.Pasta;
-import com.cheeze.pizza.pizzacheeze.types.Pizza;
-import com.cheeze.pizza.pizzacheeze.types.Product;
-import com.cheeze.pizza.pizzacheeze.types.SpecialProductLists;
-import com.cheeze.pizza.pizzacheeze.types.ToppingProduct;
+import com.cheeze.pizza.pizzacheeze.types.*;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 import java.util.ArrayList;
-
-import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 public class MainActivity extends AppCompatActivity {
     final int RC_LUCKY = 1758;
@@ -143,16 +132,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MivtzaimBanner.class);
             startActivityForResult(intent, RC_ON_CLOSE_MIVTZAIM);
         } else {
-            if (!SplashActivity.lastOrder.getPhoneNumber().equals("") && !loadedLast) {
-                needToLoad = true;
-                if (SplashActivity.lastOrder.getFreeProducts() != null && SplashActivity.lastOrder.getFreeProducts().size() > 0 && SplashActivity.firstTimeHatavot) {
-                    SplashActivity.firstTimeHatavot = false;
-                    openHatavot();
-                } else if (SplashActivity.firstTimeLastOrder) {
-                    SplashActivity.firstTimeLastOrder = false;
-                    openLoadLastOrder();
-                }
-            }
+            loadHatavotOrLastOrder();
         }
         //if there was a previous order, ask the user if he wants to set it
 
@@ -333,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, R.string.plsUpdate, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.cheeze.pizza.pizzacheeze"));
                 startActivity(intent);
-            } else if (SplashActivity.myAppSettings.getAppStatus()) {
+            } else if (SplashActivity.myAppSettings.isAppStatus()) {
                 Intent intent = new Intent(MainActivity.this, ChooseType.class);
                 finish();
                 startActivity(intent);
@@ -422,18 +402,15 @@ public class MainActivity extends AppCompatActivity {
         final String finalMessage = order;
 
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                GMailSender sender = new GMailSender(senderMail, senderPassword);
-                try {
-                    sender.sendMail(subject, finalMessage, receiver, receiver);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    successfulMail[0] = false;
-                }
+        Thread thread = new Thread(() -> {
+            GMailSender sender = new GMailSender(senderMail, senderPassword);
+            try {
+                sender.sendMail(subject, finalMessage, receiver, receiver);
+            } catch (Exception e) {
+                e.printStackTrace();
+                successfulMail[0] = false;
             }
-        };
+        });
         Thread backUpThread = new Thread() {
             @Override
             public void run() {
@@ -479,35 +456,34 @@ public class MainActivity extends AppCompatActivity {
         return outlookSender.sendMail(subject, finalMessage, receiver);
     }
 
+    private void saveAndGoodbye() {
+        saveThisOrder();
+        AlertDialog.Builder ad = new AlertDialog.Builder(this)
+                .setMessage("ההזמנה התקבלה בהצלחה ותהיה " + (SplashActivity.order.isShipment() ? "אצלך " : "מוכנה ") + "בזמן שצוין.")
+                .setCancelable(false)
+                .setPositiveButton(" להתראות!", (dialog, id) -> {
+                    alert.dismiss();
+                    finishAffinity();
+                });
+        alert = ad.create();
+        alert.show();
+        SplashActivity.order = new Order();
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_LUCKY && resultCode == RESULT_OK) {
-            saveThisOrder();
-            AlertDialog.Builder ad = new AlertDialog.Builder(this)
-                    .setMessage("ההזמנה התקבלה בהצלחה ותהיה " + (SplashActivity.order.isShipment() ? "אצלך " : "מוכנה ") + "בזמן שצוין.")
-                    .setCancelable(false)
-                    .setPositiveButton(" להתראות!", (dialog, id) -> {
-                        alert.dismiss();
-                        finishAffinity();
-                    });
-            alert = ad.create();
-            alert.show();
-            SplashActivity.order = new Order();
+            // lucky was closed
+            saveAndGoodbye();
         }
         if (requestCode == RC_ON_CLOSE_MIVTZAIM) {
-            if (!SplashActivity.lastOrder.getPhoneNumber().equals("") && !loadedLast) {
-                needToLoad = true;
-                if (SplashActivity.lastOrder.getFreeProducts() != null && SplashActivity.lastOrder.getFreeProducts().size() > 0 && SplashActivity.firstTimeHatavot) {
-                    SplashActivity.firstTimeHatavot = false;
-                    openHatavot();
-                } else if (SplashActivity.firstTimeLastOrder) {
-                    SplashActivity.firstTimeLastOrder = false;
-                    openLoadLastOrder();
-                }
-            }
+            // if MIVTZAIM was closed
+            loadHatavotOrLastOrder();
         }
         if (requestCode == RC_ON_CLOSE_HATAVOT) {
+            // hatavot was closed
             if (SplashActivity.firstTimeLastOrder) {
                 SplashActivity.firstTimeLastOrder = false;
                 openLoadLastOrder();
@@ -515,8 +491,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void loadHatavotOrLastOrder() {
+        if (!SplashActivity.lastOrder.getPhoneNumber().equals("") && !loadedLast) {
+            needToLoad = true;
+            if (SplashActivity.lastOrder.getFreeProducts() != null && SplashActivity.lastOrder.getFreeProducts().size() > 0 && SplashActivity.firstTimeHatavot) {
+                // if there are free products that were not shown, show them
+                SplashActivity.firstTimeHatavot = false;
+                openHatavot();
+            } else if (SplashActivity.firstTimeLastOrder) {
+                // if there are none, show the last order dialog
+                SplashActivity.firstTimeLastOrder = false;
+                openLoadLastOrder();
+            }
+        }
+    }
+
     private void spinNsave() {
-        sendOrderToFB(SplashActivity.order);
+        if (!SplashActivity.TEST_MODE)
+            sendOrderToFB(SplashActivity.order);
         Intent intent = new Intent(MainActivity.this, LuckyWheel.class);
         startActivityForResult(intent, RC_LUCKY);
         loadingDialog.cancel();

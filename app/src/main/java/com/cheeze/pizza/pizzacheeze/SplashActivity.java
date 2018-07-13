@@ -83,7 +83,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     //todo************** false before release*************************
-    public static final boolean TEST_MODE = false;
+    public static final boolean TEST_MODE = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

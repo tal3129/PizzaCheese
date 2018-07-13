@@ -154,6 +154,8 @@ public class Order implements Serializable {
 
     public void addToCartWithMainPrice(Cart cart) {
         for (Product p : cart.getSelectedProducts()) {
+            if (p instanceof Pizza)
+                ((Pizza) p).setOnOneFreeTop(false);
             p.setPrice(p.getMainPrice());
             p.setTotalPrice(p.getCount() * p.getPrice());
             p.updatePrice();
