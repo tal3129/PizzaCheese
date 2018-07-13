@@ -153,14 +153,14 @@ public class Order implements Serializable {
     }
 
     public void addToCartWithMainPrice(Cart cart) {
-        EditPizza.freeTopUsed = true;
         for (Product p : cart.getSelectedProducts()) {
             p.setPrice(p.getMainPrice());
             p.setTotalPrice(p.getCount() * p.getPrice());
             p.updatePrice();
+            if (EditPizza.freeTopUsed)
+                SplashActivity.oneFreeTop = false;
             this.cart.addProduct(p);
         }
-        EditPizza.freeTopUsed = false;
     }
 
     public void addToCartForFree(Cart cart) {

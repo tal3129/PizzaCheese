@@ -52,8 +52,8 @@ public class SplashActivity extends AppCompatActivity {
     private int dbStorageVersion;
 
     // the discounts
-    public static boolean onePlusActive;
-    public static boolean oneFreeTop;
+    public static boolean onePlusActive = false;
+    public static boolean oneFreeTop = false;
 
     // not good but necessary
     public static Context thisContext;

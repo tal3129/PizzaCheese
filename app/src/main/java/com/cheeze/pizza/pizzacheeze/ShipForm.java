@@ -29,13 +29,14 @@ import java.util.UUID;
 @SuppressWarnings("Duplicates")
 public class ShipForm extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvTime, shipPrice, tvTotalPrice, tvDate;
     static Product shipment = new Product(UUID.randomUUID().toString(), "משלוח", 18, "משלוח");
     private final int RC_VERIFY_CASH_PAYMENT = 123;
     private final int RC_VERIFY_CC_PAYMENT = 234;
-    int nMinute, nHour;
     private final int RC_GET_CREDIT_INFO = 126;
+    TextView tvTime, shipPrice, tvTotalPrice, tvDate;
+    int nMinute, nHour;
     Spinner spinnerCity;
+    int width;
     private EditText name, phone, address;
     private DatabaseReference earningsRef;
     private DailyEarning todayEarning;
@@ -43,8 +44,6 @@ public class ShipForm extends AppCompatActivity implements View.OnClickListener 
     private ImageView btnCash, btnCC;
     private String cPhoneNumber, cName, cArrivalTime, cArea, cAddress;
     private Dialog d;
-    int width;
-
     private boolean anotherDay = false;
     private LocalDate pickedDate;
     private LocalTime pickedTime;
