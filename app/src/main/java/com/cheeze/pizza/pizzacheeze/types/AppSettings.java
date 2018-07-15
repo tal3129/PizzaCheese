@@ -6,6 +6,7 @@ package com.cheeze.pizza.pizzacheeze.types;
 
 
 public class AppSettings {
+    private double toppingPrice;
     private boolean luckyWheelEnabled;
     private String receiverMail;
     private boolean appStatus;
@@ -25,6 +26,7 @@ public class AppSettings {
     }
 
     public AppSettings(){
+        toppingPrice = 5;
     }
 
     public boolean isLuckyWheelEnabled() {
@@ -81,6 +83,14 @@ public class AppSettings {
 
     public void setCcStatus(Boolean ccStatus) {
         this.ccStatus = ccStatus;
+    }
+
+    public double getToppingPrice() {
+        return this.toppingPrice;
+    }
+
+    public void setToppingPrice(double toppingPrice) {
+        this.toppingPrice = toppingPrice;
     }
 }
 

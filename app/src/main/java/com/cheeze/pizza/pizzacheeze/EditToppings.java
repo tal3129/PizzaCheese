@@ -7,9 +7,9 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.cheeze.pizza.pizzacheeze.types.Topping;
 
 public class EditToppings extends AppCompatActivity {
@@ -141,13 +140,13 @@ public class EditToppings extends AppCompatActivity {
         mainlayout_width = (int) (width/1.5);
 
         quaterslayout_size = (int) (mainlayout_width/1.2);
-        quater_size =(int)(quaterslayout_size/2);
+        quater_size = quaterslayout_size / 2;
         quaters_margin_top = quater_size/15;
 
         tv_size = convertSpToPixels(10,this);
 
         tv_instruction_size = convertSpToPixels(7,this);
-        edditlayout_height =(int) (quater_size/2);
+        edditlayout_height = quater_size / 2;
         edditlayout_width = (int)(mainlayout_width/1.2);
         edditlayout_button_size = (int)(edditlayout_height/1.2);
         edditlayout_button_margin = edditlayout_button_size/5;
@@ -185,22 +184,18 @@ public class EditToppings extends AppCompatActivity {
         for (int i=0;i<4;i++){
             ivQuaters[i] = new ImageView(this);
             ivQuaters[i].setTag(i+"");
-            ivQuaters[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int id = Integer.valueOf(v.getTag().toString());
-                    if (topping.getQuarterAt(id)){
-                        //ivQuaters[id].setImageResource(resourcesStrokeOnly[id]);
-                        ivQuaters[id].setImageBitmap(SplashActivity.decodeSampledBitmapFromResource(getResources(),resourcesStrokeOnly[id],size,size));
-                    }
-                    else {
-                        ivQuaters[id].setImageBitmap(SplashActivity.decodeSampledBitmapFromResource(getResources(),resourcesFullRed[id],size,size));
-                    }
-
-
-                    topping.changeQuater(id);
-                    onChangeQuater();
+            ivQuaters[i].setOnClickListener(v -> {
+                int id = Integer.valueOf(v.getTag().toString());
+                if (topping.getQuarterAt(id)) {
+                    //ivQuaters[id].setImageResource(resourcesStrokeOnly[id]);
+                    ivQuaters[id].setImageBitmap(SplashActivity.decodeSampledBitmapFromResource(getResources(), resourcesStrokeOnly[id], size, size));
+                } else {
+                    ivQuaters[id].setImageBitmap(SplashActivity.decodeSampledBitmapFromResource(getResources(), resourcesFullRed[id], size, size));
                 }
+
+
+                topping.changeQuater(id);
+                onChangeQuater();
             });
             ivQuaters[i].setId(View.generateViewId());
             ivQuatersParams[i] = new RelativeLayout.LayoutParams(quater_size,quater_size);
@@ -280,100 +275,85 @@ public class EditToppings extends AppCompatActivity {
         mainLayout.addView(editLayout,editLayoutParams);
 
 
-        ivAllPizza.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(allPizza){
-                    allPizza = false;
-                    ivAllPizza.setImageResource(R.drawable.all_pizza_uncheck);
-                    for (int i=0;i<4;i++) {
-                        topping.changeQuater(i, false);
-                        ivQuaters[i].setImageResource(resourcesStrokeOnly[i]);
-                        onChangeQuater();
-                    }
+        ivAllPizza.setOnClickListener(v -> {
+            if (allPizza) {
+                allPizza = false;
+                ivAllPizza.setImageResource(R.drawable.all_pizza_uncheck);
+                for (int i = 0; i < 4; i++) {
+                    topping.changeQuater(i, false);
+                    ivQuaters[i].setImageResource(resourcesStrokeOnly[i]);
+                    onChangeQuater();
                 }
-
-                else {
-                    allPizza =true;
-                    ivAllPizza.setImageResource(R.drawable.all_pizza_check);
-                    for (int i=0;i<4;i++){
-                        topping.changeQuater(i,true);
-                        ivQuaters[i].setImageResource(resourcesFullRed[i]);
-                        onChangeQuater();
-                    }
+            } else {
+                allPizza = true;
+                ivAllPizza.setImageResource(R.drawable.all_pizza_check);
+                for (int i = 0; i < 4; i++) {
+                    topping.changeQuater(i, true);
+                    ivQuaters[i].setImageResource(resourcesFullRed[i]);
+                    onChangeQuater();
                 }
-
             }
+
         });
 
-        ivRightHalf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ivRightHalf.setOnClickListener(v -> {
+            if (rightHalf) {
+                rightHalf = false;
+                ivRightHalf.setImageResource(R.drawable.right_half_uncheck);
+                topping.changeQuater(0, false);
+                topping.changeQuater(2, false);
 
-                if (rightHalf){
-                    rightHalf = false;
-                    ivRightHalf.setImageResource(R.drawable.right_half_uncheck);
-                    topping.changeQuater(0,false);
-                    topping.changeQuater(2,false);
+                ivQuaters[0].setImageResource(resourcesStrokeOnly[0]);
+                ivQuaters[2].setImageResource(resourcesStrokeOnly[2]);
+                onChangeQuater();
+            } else {
+                rightHalf = true;
+                ivRightHalf.setImageResource(R.drawable.right_half_check);
 
-                    ivQuaters[0].setImageResource(resourcesStrokeOnly[0]);
-                    ivQuaters[2].setImageResource(resourcesStrokeOnly[2]);
-                    onChangeQuater();
-                }
-                else {
-                    rightHalf = true;
-                    ivRightHalf.setImageResource(R.drawable.right_half_check);
+                topping.changeQuater(0, true);
+                topping.changeQuater(2, true);
 
-                    topping.changeQuater(0,true);
-                    topping.changeQuater(2,true);
+                topping.changeQuater(1, false);
+                topping.changeQuater(3, false);
 
-                    topping.changeQuater(1,false);
-                    topping.changeQuater(3,false);
+                ivQuaters[0].setImageResource(resourcesFullRed[0]);
+                ivQuaters[2].setImageResource(resourcesFullRed[2]);
 
-                    ivQuaters[0].setImageResource(resourcesFullRed[0]);
-                    ivQuaters[2].setImageResource(resourcesFullRed[2]);
-
-                    ivQuaters[1].setImageResource(resourcesStrokeOnly[1]);
-                    ivQuaters[3].setImageResource(resourcesStrokeOnly[3]);
-                    onChangeQuater();
-                }
-
+                ivQuaters[1].setImageResource(resourcesStrokeOnly[1]);
+                ivQuaters[3].setImageResource(resourcesStrokeOnly[3]);
+                onChangeQuater();
             }
+
         });
 
-        ivLefttHalf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ivLefttHalf.setOnClickListener(v -> {
+            if (leftHalf) {
+                leftHalf = false;
+                ivLefttHalf.setImageResource(R.drawable.left_half_uncheck);
+                topping.changeQuater(1, false);
+                topping.changeQuater(3, false);
 
-                if (leftHalf){
-                    leftHalf = false;
-                    ivLefttHalf.setImageResource(R.drawable.left_half_uncheck);
-                    topping.changeQuater(1,false);
-                    topping.changeQuater(3,false);
+                ivQuaters[1].setImageResource(resourcesStrokeOnly[1]);
+                ivQuaters[3].setImageResource(resourcesStrokeOnly[3]);
+                onChangeQuater();
+            } else {
+                leftHalf = true;
+                ivLefttHalf.setImageResource(R.drawable.left_half_check);
 
-                    ivQuaters[1].setImageResource(resourcesStrokeOnly[1]);
-                    ivQuaters[3].setImageResource(resourcesStrokeOnly[3]);
-                    onChangeQuater();
-                }
-                else {
-                    leftHalf = true;
-                    ivLefttHalf.setImageResource(R.drawable.left_half_check);
+                topping.changeQuater(1, true);
+                topping.changeQuater(3, true);
 
-                    topping.changeQuater(1,true);
-                    topping.changeQuater(3,true);
+                topping.changeQuater(0, false);
+                topping.changeQuater(2, false);
 
-                    topping.changeQuater(0,false);
-                    topping.changeQuater(2,false);
+                ivQuaters[1].setImageResource(resourcesFullRed[1]);
+                ivQuaters[3].setImageResource(resourcesFullRed[3]);
 
-                    ivQuaters[1].setImageResource(resourcesFullRed[1]);
-                    ivQuaters[3].setImageResource(resourcesFullRed[3]);
-
-                    ivQuaters[0].setImageResource(resourcesStrokeOnly[0]);
-                    ivQuaters[2].setImageResource(resourcesStrokeOnly[2]);
-                    onChangeQuater();
-                }
-
+                ivQuaters[0].setImageResource(resourcesStrokeOnly[0]);
+                ivQuaters[2].setImageResource(resourcesStrokeOnly[2]);
+                onChangeQuater();
             }
+
         });
     }
 
@@ -386,12 +366,9 @@ public class EditToppings extends AppCompatActivity {
         fabExitParams.addRule(RelativeLayout.BELOW,editLayout.getId());
         fabExitParams.setMargins(fab_margins,fab_margins,0,fab_margins);
 
-        fabExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_OK);
-                finish();
-            }
+        fabExit.setOnClickListener(v -> {
+            setResult(RESULT_OK);
+            finish();
         });
 
         mainLayout.addView(fabExit,fabExitParams);

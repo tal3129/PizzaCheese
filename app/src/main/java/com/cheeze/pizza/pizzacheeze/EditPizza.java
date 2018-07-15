@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.cheeze.pizza.pizzacheeze.CustomViews.Banner;
 import com.cheeze.pizza.pizzacheeze.CustomViews.MyNumberPicker;
 import com.cheeze.pizza.pizzacheeze.CustomViews.ToppingCard;
@@ -168,10 +167,10 @@ public class EditPizza extends AppCompatActivity {
         height = display.getHeight();
         //finish
 
-        quaterSize = (int) (width / 3);
+        quaterSize = width / 3;
         pizza_margin_top = quaterSize / 10;
         price_width = (int) (1.2 * quaterSize);
-        price_height = (int) (price_width / 3);
+        price_height = price_width / 3;
         pizza_text_size = convertSpToPixels(12, this);
         pizza_text_margin_top = pizza_margin_top;
         price_text_size = convertSpToPixels(10, this);
@@ -189,7 +188,7 @@ public class EditPizza extends AppCompatActivity {
         tv_choostopping_text_size = convertSpToPixels(10, this);
 
         card_height = height / 8;
-        card_margin_top = (int) (card_height / 15);
+        card_margin_top = card_height / 15;
 
         number_picker_height = (int) (price_height * 0.7);
         number_picker_width = price_width;
@@ -277,24 +276,21 @@ public class EditPizza extends AppCompatActivity {
         ivAddToCartParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         //ivAddToCartParams.setMargins(0, 0, addToCart_margin_right, 0);
-        ivAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoadingDialog loadingDialog = new LoadingDialog(view.getContext());
-                loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                loadingDialog.setCancelable(false);
-                loadingDialog.show();
+        ivAddToCart.setOnClickListener(view -> {
+            LoadingDialog loadingDialog = new LoadingDialog(view.getContext());
+            loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            loadingDialog.setCancelable(false);
+            loadingDialog.show();
 
-                Product newPizza = new Pizza(thisPizza);
-                AddProductDialog.product = newPizza;
-                SplashActivity.order.getCart().addProduct(newPizza);
-                added = true;
-                if(freeTopUsed)
-                    SplashActivity.oneFreeTop=false;
-                thisPizza = null;
-                setResult(RSC_SHOW_DIALOG);
-                finish();
-            }
+            Product newPizza = new Pizza(thisPizza);
+            AddProductDialog.product = newPizza;
+            SplashActivity.order.getCart().addProduct(newPizza);
+            added = true;
+            if (freeTopUsed)
+                SplashActivity.oneFreeTop = false;
+            thisPizza = null;
+            setResult(RSC_SHOW_DIALOG);
+            finish();
         });
 
         myNumberPicker = new MyNumberPicker(this, number_picker_height, thisPizza, tvPrice);

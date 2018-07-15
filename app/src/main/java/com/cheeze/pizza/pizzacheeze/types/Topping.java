@@ -3,11 +3,11 @@ package com.cheeze.pizza.pizzacheeze.types;
 import android.net.Uri;
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Topping implements Serializable {
-
     private String name;
     private ArrayList<Boolean> onQuarters;
     private String picUri;

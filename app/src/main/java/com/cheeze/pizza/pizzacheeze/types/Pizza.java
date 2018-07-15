@@ -79,7 +79,7 @@ public class Pizza extends Product implements Serializable {
         }
         if (SplashActivity.onePlusActive)
             tqs = Math.ceil(tqs / 2);
-        price = originalPrice + (tqs * 5);
+        price = originalPrice + (tqs * SplashActivity.myAppSettings.getToppingPrice());
         super.updateTotalPrice();
     }
 
