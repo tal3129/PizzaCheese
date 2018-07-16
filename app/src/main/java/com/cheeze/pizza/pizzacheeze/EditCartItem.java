@@ -6,18 +6,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.cheeze.pizza.pizzacheeze.CustomViews.MyNumberPicker;
 import com.cheeze.pizza.pizzacheeze.types.Pizza;
 import com.cheeze.pizza.pizzacheeze.types.Product;
@@ -137,12 +132,12 @@ public class EditCartItem extends AppCompatActivity {
 
         number_picker_height = (int)(popupHeight/7.7);
         number_picker_width = (int)(popupWidth/3.5);
-        quantity_layout_margin_top = (int)(number_picker_height/2);
+        quantity_layout_margin_top = number_picker_height / 2;
         number_picker_margin_right = quantity_layout_margin_top/3;
 
         note_layout_margin_right = quantity_layout_margin_top;
 
-        ok_button_height = (int)(popupHeight/6);
+        ok_button_height = popupHeight / 6;
 
         final_price_text_margin_right = note_layout_margin_right/4;
 
@@ -253,18 +248,15 @@ public class EditCartItem extends AppCompatActivity {
         bOKParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ok_button_height);
         bOKParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
-        bOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (shoppingCart!=null)
-                    shoppingCart.updatePrices();
+        bOk.setOnClickListener(view -> {
+            if (shoppingCart != null)
+                shoppingCart.updatePrices();
 
-                if (etNote.getText().toString().length()!=0){
-                    product.setNote(etNote.getText().toString());
-                }
-
-                finish();
+            if (etNote.getText().toString().length() != 0) {
+                product.setNote(etNote.getText().toString());
             }
+
+            finish();
         });
 
         mainLayout.addView(bOk,bOKParams);
@@ -280,28 +272,25 @@ public class EditCartItem extends AppCompatActivity {
         ivEditTopings = new ImageView(this);
         ivEditTopings.setImageResource(R.drawable.edit_topings);
 
-        ivEditTopings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (product instanceof Pizza) {
-                    EditPizza.thisPizza = (Pizza) product;
-                    SplashActivity.order.getCart().removeProduct(product);
-                    Intent intent = new Intent(EditCartItem.this, EditPizza.class);
-                    intent.putExtra("Edit", true);
-                    startActivity(intent);
-                    finish();
-                }
-                if (product instanceof ToppingProduct){
-                    SetProductToppingActivity.myProd = (ToppingProduct) product;
-                    SplashActivity.order.getCart().removeProduct(product);
-                    Intent intent = new Intent(EditCartItem.this,SetProductToppingActivity.class);
-                    intent.putExtra("Edit", true);
-                    startActivity(intent);
-                    SetProductToppingActivity.shoppingCart = shoppingCart;
-                    finish();
-                }
-
+        ivEditTopings.setOnClickListener(view -> {
+            if (product instanceof Pizza) {
+                EditPizza.thisPizza = (Pizza) product;
+                SplashActivity.order.getCart().removeProduct(product);
+                Intent intent = new Intent(EditCartItem.this, EditPizza.class);
+                intent.putExtra("Edit", true);
+                startActivity(intent);
+                finish();
             }
+            if (product instanceof ToppingProduct) {
+                SetProductToppingActivity.myProd = (ToppingProduct) product;
+                SplashActivity.order.getCart().removeProduct(product);
+                Intent intent = new Intent(EditCartItem.this, SetProductToppingActivity.class);
+                intent.putExtra("Edit", true);
+                startActivity(intent);
+                SetProductToppingActivity.shoppingCart = shoppingCart;
+                finish();
+            }
+
         });
 
         ivEditTopingsParams  = new RelativeLayout.LayoutParams(iv_topping_size,iv_topping_size);

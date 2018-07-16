@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.cheeze.pizza.pizzacheeze.ChooseProduct;
 import com.cheeze.pizza.pizzacheeze.R;
 import com.cheeze.pizza.pizzacheeze.SplashActivity;
@@ -30,6 +29,54 @@ public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.
 
     private ChooseOrderAdapter.ViewHolder[] viewHolders;
 
+    @Override
+    public void onBindViewHolder(final ChooseOrderAdapter.ViewHolder viewHolder, final int i) {
+
+
+        viewHolder.imageView.setImageBitmap(SplashActivity.decodeSampledBitmapFromResource(viewHolder.itemView.getResources(), imageId[i], 105, 105));
+        viewHolder.position = i;
+
+
+        viewHolder.autoResizeTextViewParams = (RelativeLayout.LayoutParams) viewHolder.titleText.getLayoutParams();
+        viewHolder.autoResizeTextViewParams.height = (width / 10);
+        Typeface face = Typeface.createFromAsset(viewHolder.autoResizeTextView.getContext().getAssets(), "fonts/VarelaRound-Regular.ttf");
+        viewHolder.autoResizeTextView.setTypeface(face);
+        viewHolder.autoResizeTextView.setText(titleName[i]);
+        viewHolder.mainLayout.addView(viewHolder.autoResizeTextView, viewHolder.autoResizeTextViewParams);
+
+        viewHolder.mainLayout.removeView(viewHolder.titleText);
+
+        viewHolders[i] = viewHolder;
+
+
+        viewHolder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ChooseProduct.class);
+            intent.putExtra("titleName", titleName[i]);
+            intent.putExtra("image", imageId[i]);
+
+            v.getContext().startActivity(intent);
+        });
+
+
+    }
+
+    public ChooseOrderAdapter(int width, int height, RecyclerView recyclerView) {
+        super();
+        this.width = width;
+        this.height = height;
+        this.recyclerView = recyclerView;
+        this.viewHolders = new ChooseOrderAdapter.ViewHolder[6];
+
+
+    }
+
+    @Override
+    public ChooseOrderAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.listview_choose_order, viewGroup, false);
+        ChooseOrderAdapter.ViewHolder viewHolder = new ChooseOrderAdapter.ViewHolder(v);
+        return viewHolder;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
 
@@ -45,11 +92,11 @@ public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
             mainLayout = itemView.findViewById(R.id.mainLayout);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView_listview_chooseOrder);
-            titleText = (TextView) itemView.findViewById(R.id.textView_listview_chooseOrder);
+            imageView = itemView.findViewById(R.id.imageView_listview_chooseOrder);
+            titleText = itemView.findViewById(R.id.textView_listview_chooseOrder);
 
-            imageView.getLayoutParams().width = (int)( width/10);
-            imageView.getLayoutParams().height = (int)( width/10);
+            imageView.getLayoutParams().width = width / 10;
+            imageView.getLayoutParams().height = width / 10;
 
 
             autoResizeTextView = new AutoResizeTextView(itemView.getContext());
@@ -60,65 +107,6 @@ public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.
 
             itemView.getLayoutParams().height = height/8;
         }
-
-    }
-
-    public ChooseOrderAdapter(int width, int height , RecyclerView recyclerView) {
-        super();
-        this.width =width;
-        this.height = height;
-        this.recyclerView = recyclerView;
-        this.viewHolders = new ChooseOrderAdapter.ViewHolder[6];
-
-
-    }
-
-    @Override
-    public ChooseOrderAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.listview_choose_order, viewGroup, false);
-        ChooseOrderAdapter.ViewHolder viewHolder = new ChooseOrderAdapter.ViewHolder(v);
-        return viewHolder;
-    }
-
-
-    @Override
-    public void onBindViewHolder(final ChooseOrderAdapter.ViewHolder viewHolder, final  int i) {
-
-
-        viewHolder.imageView.setImageBitmap(SplashActivity.decodeSampledBitmapFromResource(viewHolder.itemView.getResources(),imageId[i],105,105));
-        viewHolder.position =i;
-
-
-
-        viewHolder.autoResizeTextViewParams = (RelativeLayout.LayoutParams) viewHolder.titleText.getLayoutParams();
-        viewHolder.autoResizeTextViewParams.height = ( width/10);
-        Typeface face = Typeface.createFromAsset(viewHolder.autoResizeTextView.getContext().getAssets(), "fonts/VarelaRound-Regular.ttf");
-        viewHolder.autoResizeTextView.setTypeface(face);
-        viewHolder.autoResizeTextView.setText(titleName[i]);
-        viewHolder.mainLayout.addView(viewHolder.autoResizeTextView,viewHolder.autoResizeTextViewParams);
-
-        viewHolder.mainLayout.removeView(viewHolder.titleText);
-
-        viewHolders[i] = viewHolder;
-
-
-
-
-
-
-
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),ChooseProduct.class);
-                intent.putExtra("titleName",titleName[i]);
-                intent.putExtra("image", imageId[i]);
-
-                v.getContext().startActivity(intent);
-            }
-        });
-
-
 
     }
 

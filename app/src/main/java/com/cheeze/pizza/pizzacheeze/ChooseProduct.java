@@ -2,33 +2,18 @@ package com.cheeze.pizza.pizzacheeze;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import com.cheeze.pizza.pizzacheeze.CustomViews.MyCardView;
-import com.cheeze.pizza.pizzacheeze.types.Discount;
-import com.cheeze.pizza.pizzacheeze.types.Pasta;
-import com.cheeze.pizza.pizzacheeze.types.Pizza;
-import com.cheeze.pizza.pizzacheeze.types.Product;
-import com.cheeze.pizza.pizzacheeze.types.ToppingProduct;
+import com.cheeze.pizza.pizzacheeze.types.*;
 import com.lb.auto_fit_textview.AutoResizeTextView;
 
 import java.util.ArrayList;
@@ -143,9 +128,9 @@ public class ChooseProduct extends AppCompatActivity implements View.OnClickList
         logo_size = actionbar_height / 4;
         logo_margin_left = logo_size / 7;
 
-        card_width = (int) (width);
-        card_height = (int) (height / 8);
-        card_margin_top = (int) (card_height / 15);
+        card_width = width;
+        card_height = height / 8;
+        card_margin_top = card_height / 15;
 
 
 
@@ -175,12 +160,7 @@ public class ChooseProduct extends AppCompatActivity implements View.OnClickList
 
         //set the back button
         ivBackButton = new ImageView(this);
-        ivBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        ivBackButton.setOnClickListener(view -> finish());
         ivBackButton.setId(View.generateViewId());
         ivBackButton.setImageResource(R.drawable.ic_arrow_back_white_48dp);
 
@@ -323,29 +303,23 @@ public class ChooseProduct extends AppCompatActivity implements View.OnClickList
 
                 } else if (oldP instanceof Pasta) {//if a Pasta card was clicked
                     AlertDialog.Builder ad = new AlertDialog.Builder(this)
-                            .setPositiveButton("הוסף", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Product product = new Pasta(oldP);
-                                    product=discountIfAvailable(product);
-                                    ((Pasta)product).setExtraCheese(true);
-                                    SplashActivity.order.getCart().addProduct(product);
-                                    AddProductDialog.product = product;
-                                    addProductDialog.show();
-                                    addProductDialog.getbContoniue().setOnClickListener(ChooseProduct.this);
-                                    addProductDialog.getbFinishOrder().setOnClickListener(ChooseProduct.this);
-                                }
-                            }).setNegativeButton("לא תודה", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Product product = new Pasta(oldP);
-                                    product=discountIfAvailable(product);
-                                    SplashActivity.order.getCart().addProduct(product);
-                                    AddProductDialog.product = product;
-                                    addProductDialog.show();
-                                    addProductDialog.getbContoniue().setOnClickListener(ChooseProduct.this);
-                                    addProductDialog.getbFinishOrder().setOnClickListener(ChooseProduct.this);
-                                }
+                            .setPositiveButton("הוסף", (dialogInterface, i) -> {
+                                Product product = new Pasta(oldP);
+                                product = discountIfAvailable(product);
+                                ((Pasta) product).setExtraCheese(true);
+                                SplashActivity.order.getCart().addProduct(product);
+                                AddProductDialog.product = product;
+                                addProductDialog.show();
+                                addProductDialog.getbContoniue().setOnClickListener(ChooseProduct.this);
+                                addProductDialog.getbFinishOrder().setOnClickListener(ChooseProduct.this);
+                            }).setNegativeButton("לא תודה", (dialogInterface, i) -> {
+                                Product product = new Pasta(oldP);
+                                product = discountIfAvailable(product);
+                                SplashActivity.order.getCart().addProduct(product);
+                                AddProductDialog.product = product;
+                                addProductDialog.show();
+                                addProductDialog.getbContoniue().setOnClickListener(ChooseProduct.this);
+                                addProductDialog.getbFinishOrder().setOnClickListener(ChooseProduct.this);
                             })
                             .setMessage("תוספת הקרמה ב-3₪?");
 

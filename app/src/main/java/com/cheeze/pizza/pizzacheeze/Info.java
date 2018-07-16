@@ -1,24 +1,17 @@
 package com.cheeze.pizza.pizzacheeze;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.github.jivimberg.library.AutoResizeTextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -68,13 +61,10 @@ public class Info extends AppCompatActivity implements OnMapReadyCallback {
 
 
         tvPhone = findViewById(R.id.tvPhone);
-        tvPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:08-971-8176"));
-                view.getContext().startActivity(intent);
-            }
+        tvPhone.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:08-971-8176"));
+            view.getContext().startActivity(intent);
         });
     }
 
@@ -92,12 +82,8 @@ public class Info extends AppCompatActivity implements OnMapReadyCallback {
         //finish
 
         //set the back button
-        ivBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        ivBackButton.setOnClickListener(view -> finish());
+
         ivBackButton.setId(View.generateViewId());
         ivBackButton.setImageResource(R.drawable.ic_arrow_back_white_48dp);
 
@@ -105,7 +91,7 @@ public class Info extends AppCompatActivity implements OnMapReadyCallback {
         height = display.getHeight();
         width = display.getWidth();
         actionbar_height = height / 4;
-        back_button_size = (int) (actionbar_height / 6);
+        back_button_size = actionbar_height / 6;
         back_button_margin_right = width / 30;
 
         ivBackButtonParams = new RelativeLayout.LayoutParams(back_button_size, back_button_size);

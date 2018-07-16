@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.cheeze.pizza.pizzacheeze.R;
 import com.cheeze.pizza.pizzacheeze.SplashActivity;
 import com.cheeze.pizza.pizzacheeze.types.Product;
@@ -63,7 +62,7 @@ public class Banner extends Dialog {
         tvDescription.setText(discounted.getName() + " ב " + String.format("%.2f", discounted.getPrice()) + " ₪  בלבד");
         ivProd = findViewById(R.id.ivProd);
         ivProd.getLayoutParams().width = (int) (width / 3.5);
-        ivProd.getLayoutParams().height = (int) (height / 10);
+        ivProd.getLayoutParams().height = height / 10;
 
         discounted.loadPicToIv(ivProd);
 
@@ -94,20 +93,12 @@ public class Banner extends Dialog {
         tvDescription = findViewById(R.id.tvDescription);
         ivProd = findViewById(R.id.ivProd);
         tvTitle.setTypeface(face);
-        findViewById(R.id.btnAdd).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SplashActivity.order.getCart().addProduct(new Product(discounted));
-                dismiss();
-            }
+        findViewById(R.id.btnAdd).setOnClickListener(v -> {
+            SplashActivity.order.getCart().addProduct(new Product(discounted));
+            dismiss();
         });
 
-        findViewById(R.id.btnDismiss).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        findViewById(R.id.btnDismiss).setOnClickListener(v -> dismiss());
         this.getWindow().getAttributes().windowAnimations = R.style.slideRightAnimations;
     }
 

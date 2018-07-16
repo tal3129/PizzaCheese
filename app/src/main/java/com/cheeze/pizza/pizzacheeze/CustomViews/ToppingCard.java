@@ -1,18 +1,14 @@
 package com.cheeze.pizza.pizzacheeze.CustomViews;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.cheeze.pizza.pizzacheeze.EditToppings;
 import com.cheeze.pizza.pizzacheeze.R;
 import com.cheeze.pizza.pizzacheeze.types.Topping;
@@ -122,13 +118,10 @@ public class ToppingCard extends RelativeLayout {
 
         this.addView(mainLayout,mainLayoutParams);
 
-        mainLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context,EditToppings.class);
-                intent.putExtra("title",topping.getName());
-                context.startActivity(intent);
-            }
+        mainLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, EditToppings.class);
+            intent.putExtra("title", topping.getName());
+            context.startActivity(intent);
         });
     }
 

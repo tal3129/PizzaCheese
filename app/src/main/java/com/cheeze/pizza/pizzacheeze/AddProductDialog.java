@@ -1,6 +1,5 @@
 package com.cheeze.pizza.pizzacheeze;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.cheeze.pizza.pizzacheeze.types.Product;
 import com.lb.auto_fit_textview.AutoResizeTextView;
 
@@ -110,12 +106,7 @@ public class AddProductDialog extends Dialog {
         bContoniue.setBackgroundColor(ContextCompat.getColor(context,R.color.colorAccent));
         bContoniue.setTextColor(Color.WHITE);
         bContoniue.setText("המשך");
-        bContoniue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancel();
-            }
-        });
+        bContoniue.setOnClickListener(view -> cancel());
         bContoniueParams = new RelativeLayout.LayoutParams(button_width,button_height);
         bContoniueParams.addRule(RelativeLayout.RIGHT_OF,bFinishOrder.getId());
 
@@ -156,13 +147,10 @@ public class AddProductDialog extends Dialog {
 
         fabEdit = new FloatingActionButton(context);
         fabEdit.setId(View.generateViewId());
-        fabEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context,EditCartItem.class);
-                context.startActivity(intent);
-                EditCartItem.product = product;
-            }
+        fabEdit.setOnClickListener(view -> {
+            Intent intent = new Intent(context, EditCartItem.class);
+            context.startActivity(intent);
+            EditCartItem.product = product;
         });
         fabEdit.setImageResource(R.drawable.ic_edit_white_48dp);
         fabEditParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

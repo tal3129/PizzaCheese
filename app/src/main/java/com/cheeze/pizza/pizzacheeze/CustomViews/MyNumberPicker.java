@@ -1,21 +1,13 @@
 package com.cheeze.pizza.pizzacheeze.CustomViews;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.media.Image;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.cheeze.pizza.pizzacheeze.R;
 import com.cheeze.pizza.pizzacheeze.types.Product;
 
@@ -53,22 +45,19 @@ public class MyNumberPicker extends LinearLayout {
 
         this.setOrientation(HORIZONTAL);
 
-        int image_view_icon_size = (int)(item_height/3);
+        int image_view_icon_size = item_height / 3;
 
         rlMinus = new RelativeLayout(context);
         rlMinus.setBackgroundResource(R.drawable.et_background);
-        rlMinus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (etCount.getText().toString().equals("")){
-                    etCount.setText(minValue + "");
-                    correctCount = minValue;
-                }
+        rlMinus.setOnClickListener(view -> {
+            if (etCount.getText().toString().equals("")) {
+                etCount.setText(minValue + "");
+                correctCount = minValue;
+            }
 
-                if (correctCount>minValue){
-                    correctCount--;
-                    etCount.setText(correctCount + "");
-                }
+            if (correctCount > minValue) {
+                correctCount--;
+                etCount.setText(correctCount + "");
             }
         });
         rlMinusParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -129,19 +118,16 @@ public class MyNumberPicker extends LinearLayout {
         etCountParams.weight=10;
 
         rlPlus = new RelativeLayout(context);
-        rlPlus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        rlPlus.setOnClickListener(view -> {
 
-                if (etCount.getText().toString().equals("")){
-                    etCount.setText(minValue + "");
-                    correctCount = minValue;
-                }
+            if (etCount.getText().toString().equals("")) {
+                etCount.setText(minValue + "");
+                correctCount = minValue;
+            }
 
-                if (correctCount<maxValue){
-                    correctCount++;
-                    etCount.setText(correctCount + "");
-                }
+            if (correctCount < maxValue) {
+                correctCount++;
+                etCount.setText(correctCount + "");
             }
         });
         rlPlus.setBackgroundResource(R.drawable.et_background);

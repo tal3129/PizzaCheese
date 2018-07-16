@@ -3,7 +3,6 @@ package com.cheeze.pizza.pizzacheeze.cardListsAdapters;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.cheeze.pizza.pizzacheeze.MainActivity;
 import com.cheeze.pizza.pizzacheeze.R;
 import com.cheeze.pizza.pizzacheeze.ShoppingCart;
@@ -29,12 +27,12 @@ import java.util.ArrayList;
 public class FreeProductsBannerAdapter extends PagerAdapter {
 
 
-    ArrayList<Product> freeProduts = new ArrayList<Product>();
+    ArrayList<Product> freeProduts = new ArrayList<>();
     Product p;
 
-    ArrayList<String> titles = new ArrayList<String>();
-    ArrayList<Integer> images = new ArrayList<Integer>();
-    ArrayList<String> descriptions = new ArrayList<String>();
+    ArrayList<String> titles = new ArrayList<>();
+    ArrayList<Integer> images = new ArrayList<>();
+    ArrayList<String> descriptions = new ArrayList<>();
 
 
     TextView tvTitle;
@@ -74,7 +72,7 @@ public class FreeProductsBannerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(View collection, Object object) {
 
-        return collection == ((View) object);
+        return collection == object;
     }
 
     @Override
@@ -111,13 +109,10 @@ public class FreeProductsBannerAdapter extends PagerAdapter {
                 case "freeToppings":
                     setToppingDiscount();
                     tvTitle.setText("נמצאה הטבה!");
-                    btnBannerFinish.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SplashActivity.onePlusActive = true;
-                            SplashActivity.order.getFreeProducts().remove(0);
-                            ((Activity)view.getContext()).finish();
-                        }
+                    btnBannerFinish.setOnClickListener(v -> {
+                        SplashActivity.onePlusActive = true;
+                        SplashActivity.order.getFreeProducts().remove(0);
+                        ((Activity) view.getContext()).finish();
                     });
                     break;
                 //for a one free topping
@@ -126,13 +121,10 @@ public class FreeProductsBannerAdapter extends PagerAdapter {
                     tvTitle.setText("נמצאה הטבה!");
                     tvDescription.setText("תוספת אחת במתנה!");
                     ivProd.setImageResource(R.drawable.gift);
-                    btnBannerFinish.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SplashActivity.order.getFreeProducts().remove(0);
-                            SplashActivity.oneFreeTop = true;
-                            ((Activity)view.getContext()).finish();
-                        }
+                    btnBannerFinish.setOnClickListener(v -> {
+                        SplashActivity.order.getFreeProducts().remove(0);
+                        SplashActivity.oneFreeTop = true;
+                        ((Activity) view.getContext()).finish();
                     });
                     break;
                 //for a free order discount
@@ -143,16 +135,13 @@ public class FreeProductsBannerAdapter extends PagerAdapter {
                     tvDescription.setText("כל ההזמנה הקודמת במתנה!!!");
                     ivProd.setImageResource(R.drawable.gift);
                     //add the previous cart to this one for free
-                    btnBannerFinish.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SplashActivity.order.addToCartForFree(SplashActivity.lastOrder.getCart());
-                            SplashActivity.order.getFreeProducts().remove(0);
-                            MainActivity.needToLoad = false;
-                            ((Activity)view.getContext()).finish();
-                            Intent intent = new Intent(v.getContext(), ShoppingCart.class);
-                            ((Activity)view.getContext()).startActivity(intent);
-                        }
+                    btnBannerFinish.setOnClickListener(v -> {
+                        SplashActivity.order.addToCartForFree(SplashActivity.lastOrder.getCart());
+                        SplashActivity.order.getFreeProducts().remove(0);
+                        MainActivity.needToLoad = false;
+                        ((Activity) view.getContext()).finish();
+                        Intent intent = new Intent(v.getContext(), ShoppingCart.class);
+                        view.getContext().startActivity(intent);
                     });
                     break;
                 //if this is a regular free product, add it for free

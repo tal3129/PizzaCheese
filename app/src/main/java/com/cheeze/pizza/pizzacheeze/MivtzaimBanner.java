@@ -1,14 +1,13 @@
 package com.cheeze.pizza.pizzacheeze;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.cheeze.pizza.pizzacheeze.types.Discount;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class MivtzaimBanner extends AppCompatActivity {
         btnFinishMivtzaim = findViewById(R.id.btnFinishMivtzaim);
 
 
-        mViewPager = (ViewPager) findViewById(R.id.pagers);
+        mViewPager = findViewById(R.id.pagers);
         MivtzaimBannersAdapter mAdapter = new MivtzaimBannersAdapter(this, discounts);
         mViewPager.setAdapter(mAdapter);
 
@@ -92,25 +91,11 @@ public class MivtzaimBanner extends AppCompatActivity {
             }
         });
 
-        scrollLeftArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mViewPager.setCurrentItem(mViewPager.getCurrentItem()-1,true);
-            }
-        });
-        scrollRightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mViewPager.setCurrentItem(mViewPager.getCurrentItem()+1,true);
-            }
-        });
+        scrollLeftArrow.setOnClickListener(view -> mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true));
 
-        btnFinishMivtzaim.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        scrollRightArrow.setOnClickListener(view -> mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true));
+
+        btnFinishMivtzaim.setOnClickListener(view -> finish());
 
     }
 
