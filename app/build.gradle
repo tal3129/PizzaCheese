@@ -16,8 +16,8 @@ android {
         applicationId "com.cheeze.pizza.pizzacheeze"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 18
-        versionName "1.2.6"
+        versionCode 19
+        versionName "1.2.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
@@ -75,11 +75,18 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // ------------------- tal
+    /*
     implementation files('D:/AndroidProjects/Pizzacheeze/libs/activation.jar')
     implementation files('D:/AndroidProjects/Pizzacheeze/libs/additionnal.jar')
     implementation files('D:/AndroidProjects/Pizzacheeze/libs/mail.jar')
+    */
 
-
+    //------------------- yuval
+    implementation files('D:/androidStudioProject/pizza cheeze Virisons/git/PizzaCheese/libs/activation.jar')
+    implementation files('D:/androidStudioProject/pizza cheeze Virisons/git/PizzaCheese/libs/additionnal.jar')
+    implementation files('D:/androidStudioProject/pizza cheeze Virisons/git/PizzaCheese/libs/mail.jar')
 
 }
 apply plugin: 'com.google.gms.google-services'
