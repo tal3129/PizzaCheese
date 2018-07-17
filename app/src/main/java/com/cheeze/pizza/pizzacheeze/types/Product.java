@@ -5,17 +5,10 @@ package com.cheeze.pizza.pizzacheeze.types;
  */
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
-
-import com.cheeze.pizza.pizzacheeze.EditPizza;
-import com.cheeze.pizza.pizzacheeze.R;
 import com.cheeze.pizza.pizzacheeze.SplashActivity;
 import com.cheeze.pizza.pizzacheeze.cardListsAdapters.ChooseOrderAdapter;
 import com.squareup.picasso.Picasso;
@@ -179,7 +172,7 @@ public class Product implements Serializable {
         //    2. the pizza is on the one free top discount
         if(this instanceof Pizza)
             if(((Pizza)this).isOnOneFreeTop())
-                totalPrice = (count * price) - 5;
+                totalPrice = (count * price) - SplashActivity.myAppSettings.getToppingPrice();
 
     }
 

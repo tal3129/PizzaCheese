@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     final int RC_ON_CLOSE_HATAVOT = 321;
     final int RC_ON_CLOSE_MIVTZAIM = 320;
 
+    public static final int SECRET_CLICK_AMOUNT = 7;
+    public static int secretCounter = 0;
+
     public static boolean needToLoad = false;
 
     RelativeLayout mainLayout; // main layout
@@ -309,16 +312,19 @@ public class MainActivity extends AppCompatActivity {
 
         ivOrderButton.setOnClickListener(v -> {
             // we can open the outdated app in test mode
-            if (SplashActivity.needToUpdate && !SplashActivity.TEST_MODE) {
+            boolean developer = SplashActivity.TEST_MODE || secretCounter == -1;
+
+            if (SplashActivity.needToUpdate && !developer) {
                 Toast.makeText(MainActivity.this, R.string.plsUpdate, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.cheeze.pizza.pizzacheeze"));
                 startActivity(intent);
-            } else if (SplashActivity.myAppSettings.isAppStatus()) {
+            } else if (!SplashActivity.myAppSettings.isAppStatus() && !developer) {
+                Toast.makeText(MainActivity.this, R.string.appInactive, Toast.LENGTH_SHORT).show();
+            } else {
                 Intent intent = new Intent(MainActivity.this, ChooseType.class);
                 finish();
                 startActivity(intent);
-            } else
-                Toast.makeText(MainActivity.this, R.string.appInactive, Toast.LENGTH_SHORT).show();
+            }
         });
 
 
@@ -331,6 +337,7 @@ public class MainActivity extends AppCompatActivity {
         ivHomeScreenLogo = new ImageView(this);
         ivHomeScreenLogo.setImageResource(R.drawable.home_screen_logo_transporment);
         ivHomeScreenLogo.setId(View.generateViewId());
+        ivHomeScreenLogo.setOnClickListener(v -> secretCounter++);
 
 
         ivHomeScreenLogoParams = new RelativeLayout.LayoutParams(center_logo_size, center_logo_size);

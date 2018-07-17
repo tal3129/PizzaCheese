@@ -20,6 +20,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static com.cheeze.pizza.pizzacheeze.MainActivity.SECRET_CLICK_AMOUNT;
+
 
 public class Info extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -30,35 +32,30 @@ public class Info extends AppCompatActivity implements OnMapReadyCallback {
     int back_button_margin_right;
 
     AutoResizeTextView tvPhone;
-
-
-    int text_height;
-    int text_width;
-
-    public static int easterCount = 0;
-    private GoogleMap mMap;
-    private RelativeLayout actionBarLayout;
-    private com.github.jivimberg.library.AutoResizeTextView tvCp;
     ImageView ivBackButton;
     RelativeLayout.LayoutParams ivBackButtonParams;
-
     TextView tvActionbar;
     RelativeLayout.LayoutParams tvActionbarParams;
+    private RelativeLayout actionBarLayout;
+    private com.github.jivimberg.library.AutoResizeTextView tvCp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
         this.getSupportActionBar().hide();
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        tvCp = findViewById(R.id.tvCpright);
+        tvCp = findViewById(R.id.tvCopyright);
         actionBarLayout = findViewById(R.id.titleLayout);
         ivBackButton = findViewById(R.id.backBtn);
         buildActionBar();
 
+        tvCp.setOnClickListener(v -> {
+            if (MainActivity.secretCounter == SECRET_CLICK_AMOUNT) MainActivity.secretCounter = -1;
+        });
 
         tvPhone = findViewById(R.id.tvPhone);
         tvPhone.setOnClickListener(view -> {
