@@ -18,20 +18,37 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import com.cheeze.pizza.pizzacheeze.types.*;
+
+import com.cheeze.pizza.pizzacheeze.types.AppSettings;
+import com.cheeze.pizza.pizzacheeze.types.Discount;
+import com.cheeze.pizza.pizzacheeze.types.MyWheelItem;
+import com.cheeze.pizza.pizzacheeze.types.Order;
+import com.cheeze.pizza.pizzacheeze.types.Pasta;
+import com.cheeze.pizza.pizzacheeze.types.Pic;
+import com.cheeze.pizza.pizzacheeze.types.PicList;
+import com.cheeze.pizza.pizzacheeze.types.Pizza;
+import com.cheeze.pizza.pizzacheeze.types.Product;
+import com.cheeze.pizza.pizzacheeze.types.ShipLocation;
+import com.cheeze.pizza.pizzacheeze.types.SpecialProductLists;
+import com.cheeze.pizza.pizzacheeze.types.ToppingProduct;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
-import me.itangqi.waveloadingview.WaveLoadingView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import me.itangqi.waveloadingview.WaveLoadingView;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -296,6 +313,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myAppSettings = dataSnapshot.getValue(AppSettings.class);
+                while (myAppSettings.extraReceivers.remove(null)) ;
                 setUpdateRequirement();
             }
 

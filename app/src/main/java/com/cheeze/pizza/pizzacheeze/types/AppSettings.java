@@ -1,7 +1,6 @@
 package com.cheeze.pizza.pizzacheeze.types;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Tal on 03/10/17.
@@ -17,10 +16,10 @@ public class AppSettings {
     private Boolean ccStatus;
     private double minWheelSum;
     private int appVersionCode;
-    public List<String> extraMails = new ArrayList<>();
+    public ArrayList<String> extraReceivers;
 
 
-    public AppSettings(String receiverMail, boolean appStatus, boolean ccStatus, String appVersion,double minWheelSum, int appVersionCode){
+    public AppSettings(String receiverMail, boolean appStatus, boolean ccStatus, String appVersion, double minWheelSum, int appVersionCode) {
         this.appStatus=appStatus;
         this.receiverMail=receiverMail;
         this.ccStatus= ccStatus;

@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
         final String senderPassword = getString(R.string.senderPassword);
 
         final String receiver = SplashActivity.myAppSettings.getReceiverMail();
-        final String extraReceivers = TextUtils.join(",", SplashActivity.myAppSettings.extraMails);
+        final String extraReceivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
 
         final String subject = "הזמנה חדשה";
         final String finalMessage = order;
@@ -461,11 +461,11 @@ public class MainActivity extends AppCompatActivity {
         final String senderPassword = "Leno3129";
 
         final String receiver = SplashActivity.myAppSettings.getReceiverMail();
+        final String extraReceivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
+
         final String subject = "הזמנה חדשה";
         final String finalMessage = order;
         OutlookSender outlookSender = new OutlookSender(senderMail, senderPassword);
-
-        final String extraReceivers = TextUtils.join(",", SplashActivity.myAppSettings.extraMails);
 
         outlookSender.sendMail(subject, finalMessage, extraReceivers);
         return outlookSender.sendMail(subject, finalMessage, receiver);
