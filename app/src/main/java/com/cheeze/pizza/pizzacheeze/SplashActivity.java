@@ -313,7 +313,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myAppSettings = dataSnapshot.getValue(AppSettings.class);
-                while (myAppSettings.extraReceivers.remove(null)) ;
+                while (myAppSettings != null && myAppSettings.extraReceivers.remove(null)) ;
                 setUpdateRequirement();
             }
 
