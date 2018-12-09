@@ -6,7 +6,9 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -30,14 +32,14 @@ public class Banner extends Dialog {
         Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/VarelaRound-Regular.ttf");
         this.context = context;
         this.discounted = discounted;
-
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         Point size = new Point();
         ((Activity) context).getWindowManager().getDefaultDisplay().getSize(size);
         int width = size.x;
         int height = size.y;
 
         setContentView(R.layout.banner_layout);
-        RelativeLayout mainLayout = this.findViewById(R.id.mainBannerLayout);
+        ConstraintLayout mainLayout = this.findViewById(R.id.mainBannerLayout);
         mainLayout.getLayoutParams().width = (int) (width / 1.5);
         mainLayout.getLayoutParams().height = (int) (height / 2.3);
 
@@ -78,6 +80,7 @@ public class Banner extends Dialog {
     public Banner(Context context) {
         super(context);
         this.setCancelable(false);
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/VarelaRound-Regular.ttf");
         this.context = context;
         Point size = new Point();
@@ -85,7 +88,7 @@ public class Banner extends Dialog {
         int width = size.x;
         int height = size.y;
         setContentView(R.layout.banner_layout);
-        RelativeLayout mainLayout = this.findViewById(R.id.mainBannerLayout);
+        ConstraintLayout mainLayout = this.findViewById(R.id.mainBannerLayout);
         mainLayout.getLayoutParams().width = (int) (width / 1.5);
         mainLayout.getLayoutParams().height = (int) (height / 2.3);
 

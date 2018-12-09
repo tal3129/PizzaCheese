@@ -8,7 +8,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.*;
 import com.cheeze.pizza.pizzacheeze.CustomViews.Banner;
 import com.cheeze.pizza.pizzacheeze.cardListsAdapters.CartAdapter;
@@ -97,6 +100,7 @@ public class ShoppingCart extends Activity implements View.OnClickListener {
     public void setPopupSize() {
         findViewById(R.id.shoppingCartMainLayoot).getLayoutParams().width = popupWidth;
         findViewById(R.id.shoppingCartMainLayoot).getLayoutParams().height = popupHeight;
+
     }
 
     @Override
@@ -169,6 +173,8 @@ public class ShoppingCart extends Activity implements View.OnClickListener {
             d = new Dialog(this);
             d.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             d.setContentView(R.layout.shiportake_dialog);
+
+
             if (d.getActionBar() != null)
                 d.getActionBar().hide();
             d.setCancelable(true);
