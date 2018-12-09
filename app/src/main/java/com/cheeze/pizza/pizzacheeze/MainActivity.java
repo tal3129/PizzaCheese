@@ -405,8 +405,8 @@ public class MainActivity extends AppCompatActivity {
         final String senderMail = getString(R.string.senderMail);
         final String senderPassword = getString(R.string.senderPassword);
 
-        final String receiver = SplashActivity.myAppSettings.getReceiverMail();
-        SplashActivity.myAppSettings.extraReceivers.add(receiver);
+        final String printer = SplashActivity.myAppSettings.getReceiverMail();
+        SplashActivity.myAppSettings.extraReceivers.add(printer);
         final String receivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
 
         final String subject = "הזמנה חדשה";
