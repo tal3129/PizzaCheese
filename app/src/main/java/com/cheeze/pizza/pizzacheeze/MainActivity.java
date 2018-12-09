@@ -174,17 +174,12 @@ public class MainActivity extends AppCompatActivity {
                         String order = SplashActivity.order.toString();
                         boolean successes = sendMail(order);
                         if (!successes) {
-                            boolean successes1 = sendBackupMail(order);
-                            if (!successes1) {
-                                runOnUiThread(() -> {
+                            runOnUiThread(() -> {
                                     loadingDialog.cancel();
                                     AlertDialog.Builder errorDialog = new AlertDialog.Builder(MainActivity.this).setTitle("אירעה שגיאה.").setMessage("אירעה שגיאה בשליחת הזמנך, אנא נסה שנית מאוחר יותר.")
                                             .setPositiveButton("אישור", (dialogInterface, i) -> dialogInterface.cancel());
                                     errorDialog.show();
                                 });
-                            } else {
-                                spinNsave();
-                            }
                         } else {
                             spinNsave();
                         }
@@ -406,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
 
     //sends the mail from PizzaCheeseServer@gmail to the email chosen in the manager app
     public boolean sendMail(String order) {
-        final boolean[] successfulMail = {true};
+        final boolean[] successfulMail = {true, true};
         final String senderMail = getString(R.string.senderMail);
         final String senderPassword = getString(R.string.senderPassword);
 
@@ -426,6 +421,8 @@ public class MainActivity extends AppCompatActivity {
                 successfulMail[0] = false;
             }
         });
+        thread.start();
+
         Thread backUpThread = new Thread() {
             @Override
             public void run() {
@@ -434,40 +431,36 @@ public class MainActivity extends AppCompatActivity {
                     sender.sendMail(subject, finalMessage, senderMail, extraReceivers);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    successfulMail[0] = false;
+                    successfulMail[1] = false;
                 }
             }
         };
-
-        thread.start();
         backUpThread.start();
-
 
         try {
             thread.join();
+            if(!successfulMail[0])
+                successfulMail[0] = sendBackupMail(order, receiver);
             backUpThread.join();
+            if(!successfulMail[1])
+                successfulMail[1] = sendBackupMail(order, extraReceivers);
             return successfulMail[0];
         } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
         }
-
-
     }
 
-    //sends the mail from pizzaCheeseBackupServer@outlook.co.il to the email chosen in the manager app
-    public boolean sendBackupMail(String order) {
+    //sends the mail from pizzaCheeseBackupServer@outlook.co.il to the receiver
+    public boolean sendBackupMail(String order, String receiver) {
         final String senderMail = "pizzaCheeseBackupServer@outlook.co.il";
         final String senderPassword = "Leno3129";
 
-        final String receiver = SplashActivity.myAppSettings.getReceiverMail();
-        final String extraReceivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
 
         final String subject = "הזמנה חדשה";
         final String finalMessage = order;
         OutlookSender outlookSender = new OutlookSender(senderMail, senderPassword);
 
-        outlookSender.sendMail(subject, finalMessage, extraReceivers);
         return outlookSender.sendMail(subject, finalMessage, receiver);
     }
 
