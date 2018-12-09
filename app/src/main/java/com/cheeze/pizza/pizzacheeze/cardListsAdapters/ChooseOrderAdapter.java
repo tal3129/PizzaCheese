@@ -116,10 +116,6 @@ public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.
             autoResizeTextView.setTextColor(Color.parseColor("#d17a80"));
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                autoResizeTextView.setTransitionName("title");
-                mainLayout.setTransitionName("card");
-            }
 
             itemView.getLayoutParams().height = height / 8;
         }
