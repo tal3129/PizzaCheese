@@ -17,7 +17,8 @@
         android:roundIcon="@drawable/home_screen_logo"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        tools:replace=" android:supportsRtl , android:icon ">
+        tools:replace=" android:supportsRtl , android:icon "
+        tools:ignore="GoogleAppIndexingWarning">
         <uses-library android:name="com.google.android.maps" />
 
         <!--
