@@ -401,12 +401,13 @@ public class MainActivity extends AppCompatActivity {
 
     //sends the mail from PizzaCheeseServer@gmail to the email chosen in the manager app
     public boolean sendMail(String order) {
-        final boolean[] successfulMail = {true, true};
+        final boolean[] successfulMail = {true};
         final String senderMail = getString(R.string.senderMail);
         final String senderPassword = getString(R.string.senderPassword);
 
-        final String receiver = SplashActivity.myAppSettings.getReceiverMail();
-        final String extraReceivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
+        final String printer = SplashActivity.myAppSettings.getReceiverMail();
+        SplashActivity.myAppSettings.extraReceivers.add(printer);
+        final String receivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
 
         final String subject = "הזמנה חדשה";
         final String finalMessage = order;
@@ -415,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
         Thread thread = new Thread(() -> {
             GMailSender sender = new GMailSender(senderMail, senderPassword);
             try {
-                sender.sendMail(subject, finalMessage, senderMail, receiver);
+                sender.sendMail(subject, finalMessage, senderMail, receivers);
             } catch (Exception e) {
                 e.printStackTrace();
                 successfulMail[0] = false;
@@ -423,27 +424,10 @@ public class MainActivity extends AppCompatActivity {
         });
         thread.start();
 
-        Thread backUpThread = new Thread() {
-            @Override
-            public void run() {
-                GMailSender sender = new GMailSender(senderMail, senderPassword);
-                try {
-                    sender.sendMail(subject, finalMessage, senderMail, extraReceivers);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    successfulMail[1] = false;
-                }
-            }
-        };
-        backUpThread.start();
-
         try {
             thread.join();
             if(!successfulMail[0])
-                successfulMail[0] = sendBackupMail(order, receiver);
-            backUpThread.join();
-            if(!successfulMail[1])
-                successfulMail[1] = sendBackupMail(order, extraReceivers);
+                successfulMail[0] = sendBackupMail(order, receivers);
             return successfulMail[0];
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -452,16 +436,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //sends the mail from pizzaCheeseBackupServer@outlook.co.il to the receiver
-    public boolean sendBackupMail(String order, String receiver) {
+    public boolean sendBackupMail(String order, String receivers) {
         final String senderMail = "pizzaCheeseBackupServer@outlook.co.il";
         final String senderPassword = "Leno3129";
-
 
         final String subject = "הזמנה חדשה";
         final String finalMessage = order;
         OutlookSender outlookSender = new OutlookSender(senderMail, senderPassword);
 
-        return outlookSender.sendMail(subject, finalMessage, receiver);
+        return outlookSender.sendMail(subject, finalMessage, receivers);
     }
 
     private void saveAndGoodbye() {
