@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.widget.ImageView;
+
 import com.cheeze.pizza.pizzacheeze.SplashActivity;
 import com.cheeze.pizza.pizzacheeze.cardListsAdapters.ChooseOrderAdapter;
 import com.squareup.picasso.Picasso;
@@ -94,7 +95,8 @@ public class Product implements Serializable {
     }
 
     public void setStringPicUri(Uri picUri) {
-        this.picUri = picUri.toString();
+        if (picUri != null)
+            this.picUri = picUri.toString();
     }
 
 
