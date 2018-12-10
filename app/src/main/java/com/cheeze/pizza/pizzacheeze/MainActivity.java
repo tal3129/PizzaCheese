@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -406,7 +407,8 @@ public class MainActivity extends AppCompatActivity {
         final String senderPassword = getString(R.string.senderPassword);
 
         final String printer = SplashActivity.myAppSettings.getReceiverMail();
-        SplashActivity.myAppSettings.extraReceivers.add(printer);
+        if (printer != null)
+            SplashActivity.myAppSettings.extraReceivers.add(printer);
         final String receivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
 
         final String subject = "הזמנה חדשה";
