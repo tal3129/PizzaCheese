@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +21,23 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.cheeze.pizza.pizzacheeze.MailSender.GMailSender;
 import com.cheeze.pizza.pizzacheeze.MailSender.OutlookSender;
-import com.cheeze.pizza.pizzacheeze.types.*;
+import com.cheeze.pizza.pizzacheeze.types.Discount;
+import com.cheeze.pizza.pizzacheeze.types.Order;
+import com.cheeze.pizza.pizzacheeze.types.Pasta;
+import com.cheeze.pizza.pizzacheeze.types.Pizza;
+import com.cheeze.pizza.pizzacheeze.types.Product;
+import com.cheeze.pizza.pizzacheeze.types.SpecialProductLists;
+import com.cheeze.pizza.pizzacheeze.types.ToppingProduct;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
-import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 import java.util.ArrayList;
+
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 public class MainActivity extends AppCompatActivity {
     final int RC_LUCKY = 1758;
@@ -165,17 +175,12 @@ public class MainActivity extends AppCompatActivity {
                         String order = SplashActivity.order.toString();
                         boolean successes = sendMail(order);
                         if (!successes) {
-                            boolean successes1 = sendBackupMail(order);
-                            if (!successes1) {
-                                runOnUiThread(() -> {
+                            runOnUiThread(() -> {
                                     loadingDialog.cancel();
                                     AlertDialog.Builder errorDialog = new AlertDialog.Builder(MainActivity.this).setTitle("אירעה שגיאה.").setMessage("אירעה שגיאה בשליחת הזמנך, אנא נסה שנית מאוחר יותר.")
                                             .setPositiveButton("אישור", (dialogInterface, i) -> dialogInterface.cancel());
                                     errorDialog.show();
                                 });
-                            } else {
-                                spinNsave();
-                            }
                         } else {
                             spinNsave();
                         }
@@ -401,9 +406,10 @@ public class MainActivity extends AppCompatActivity {
         final String senderMail = getString(R.string.senderMail);
         final String senderPassword = getString(R.string.senderPassword);
 
-
-        final String receiver = SplashActivity.myAppSettings.getReceiverMail();
-        final String backUpReceiver = "eetayh@gmail.com";
+        final String printer = SplashActivity.myAppSettings.getReceiverMail();
+        if (printer != null)
+            SplashActivity.myAppSettings.extraReceivers.add(printer);
+        final String receivers = TextUtils.join(",", SplashActivity.myAppSettings.extraReceivers);
 
         final String subject = "הזמנה חדשה";
         final String finalMessage = order;
@@ -412,55 +418,35 @@ public class MainActivity extends AppCompatActivity {
         Thread thread = new Thread(() -> {
             GMailSender sender = new GMailSender(senderMail, senderPassword);
             try {
-                sender.sendMail(subject, finalMessage, receiver, receiver);
+                sender.sendMail(subject, finalMessage, senderMail, receivers);
             } catch (Exception e) {
                 e.printStackTrace();
                 successfulMail[0] = false;
             }
         });
-        Thread backUpThread = new Thread() {
-            @Override
-            public void run() {
-                GMailSender sender = new GMailSender(senderMail, senderPassword);
-                try {
-                    sender.sendMail(subject, finalMessage, backUpReceiver, backUpReceiver);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    successfulMail[0] = false;
-                }
-            }
-        };
-
         thread.start();
-        backUpThread.start();
-
 
         try {
             thread.join();
-            backUpThread.join();
+            if(!successfulMail[0])
+                successfulMail[0] = sendBackupMail(order, receivers);
             return successfulMail[0];
         } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
         }
-
-
     }
 
-    //sends the mail from pizzaCheeseBackupServer@outlook.co.il to the email chosen in the manager app
-    public boolean sendBackupMail(String order) {
+    //sends the mail from pizzaCheeseBackupServer@outlook.co.il to the receiver
+    public boolean sendBackupMail(String order, String receivers) {
         final String senderMail = "pizzaCheeseBackupServer@outlook.co.il";
         final String senderPassword = "Leno3129";
 
-        final String receiver = SplashActivity.myAppSettings.getReceiverMail();
         final String subject = "הזמנה חדשה";
         final String finalMessage = order;
         OutlookSender outlookSender = new OutlookSender(senderMail, senderPassword);
 
-        final String backUpReceiver = "eetayh@gmail.com";
-
-        outlookSender.sendMail(subject, finalMessage, backUpReceiver);
-        return outlookSender.sendMail(subject, finalMessage, receiver);
+        return outlookSender.sendMail(subject, finalMessage, receivers);
     }
 
     private void saveAndGoodbye() {

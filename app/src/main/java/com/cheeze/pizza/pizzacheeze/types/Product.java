@@ -94,8 +94,11 @@ public class Product implements Serializable {
     }
 
     public void setStringPicUri(Uri picUri) {
-        this.picUri = picUri.toString();
+        if (picUri != null)
+            this.picUri = picUri.toString();
     }
+
+
 
 
     public boolean isAvailable() {

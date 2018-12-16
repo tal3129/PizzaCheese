@@ -83,6 +83,7 @@ public class ChooseProduct extends AppCompatActivity implements View.OnClickList
         this.getSupportActionBar().hide(); // hide the action bar this.getSupportActionBar().hide(); // hide the action ba
         //finish
 
+
         //get screen size
         final Display display = this.getWindowManager().getDefaultDisplay();
         width = display.getWidth();
@@ -93,6 +94,9 @@ public class ChooseProduct extends AppCompatActivity implements View.OnClickList
         mainLayout.setId(View.generateViewId());
         mainLayout.setBackgroundColor(Color.parseColor("#e4e5e6"));
         mainLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+
+
 
 
         setSize();
@@ -218,10 +222,6 @@ public class ChooseProduct extends AppCompatActivity implements View.OnClickList
         scrollViewParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         scrollViewParams.addRule(RelativeLayout.BELOW, actionBarLayout.getId());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            scrollView.setTransitionName("card");
-            actionBarLayout.setTransitionName("line");
-        }
         //finish
 
         scrollView.addView(cardListLayout, cardListLayoutParams);

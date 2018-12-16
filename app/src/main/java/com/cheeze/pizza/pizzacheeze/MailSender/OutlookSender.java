@@ -1,10 +1,13 @@
 package com.cheeze.pizza.pizzacheeze.MailSender;
 
-import javax.mail.*;
+import java.util.Properties;
 
-import java.util.*;
-
-import javax.mail.internet.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 
 
@@ -46,7 +49,10 @@ public class OutlookSender {
             message.setFrom(new InternetAddress(from));
 
             // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
+            if (receiver.indexOf(',') > 0)
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver));
+            else
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
 
             // Set Subject: header field
             message.setSubject(subject);
