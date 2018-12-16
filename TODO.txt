@@ -1,0 +1,1 @@
+Move "add to cart" button in banner to the right side, more appealing to click.
