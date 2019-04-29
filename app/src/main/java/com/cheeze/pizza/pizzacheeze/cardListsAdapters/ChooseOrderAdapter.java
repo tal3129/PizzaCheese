@@ -1,26 +1,32 @@
 package com.cheeze.pizza.pizzacheeze.cardListsAdapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.cheeze.pizza.pizzacheeze.ChooseProduct;
 import com.cheeze.pizza.pizzacheeze.R;
 import com.cheeze.pizza.pizzacheeze.SplashActivity;
 import com.lb.auto_fit_textview.AutoResizeTextView;
 
 
-public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.ViewHolder>  {
+public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.ViewHolder> {
 
 
-    public static String[] titleName = {"פיצות" , "פסטות"  , "מאפים" , "שתייה" , "סלטים" , "מנות אחרונות"};
-    public static int[] imageId = {R.drawable.pizza_icon_red,R.drawable.spaguetti_icon_red,R.drawable.mafim_icon_red,R.drawable.drink_icon_red,R.drawable.salad_icon_red,R.drawable.desert_icon_red};
+    public static String[] titleName = {"פיצות", "פסטות", "מאפים", "שתייה", "סלטים", "מנות אחרונות"};
+    public static int[] imageId = {R.drawable.pizza_icon_red, R.drawable.spaguetti_icon_red, R.drawable.mafim_icon_red, R.drawable.drink_icon_red, R.drawable.salad_icon_red, R.drawable.desert_icon_red};
 
     int width;
     int height;
@@ -50,12 +56,18 @@ public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.
 
 
         viewHolder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), ChooseProduct.class);
-            intent.putExtra("titleName", titleName[i]);
-            intent.putExtra("image", imageId[i]);
 
-            v.getContext().startActivity(intent);
-        });
+                    Intent intent = new Intent(v.getContext(), ChooseProduct.class);
+                    intent.putExtra("titleName", titleName[i]);
+                    intent.putExtra("image", imageId[i]);
+                    v.getContext().startActivity(intent);
+
+                }
+            );
+
+
+
+
 
 
     }
@@ -77,7 +89,7 @@ public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.
         return viewHolder;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
 
         public int position;
@@ -105,7 +117,7 @@ public class ChooseOrderAdapter extends RecyclerView.Adapter<ChooseOrderAdapter.
 
 
 
-            itemView.getLayoutParams().height = height/8;
+            itemView.getLayoutParams().height = height / 8;
         }
 
     }

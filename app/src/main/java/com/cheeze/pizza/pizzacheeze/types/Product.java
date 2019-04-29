@@ -100,6 +100,8 @@ public class Product implements Serializable {
     }
 
 
+
+
     public boolean isAvailable() {
         return available;
     }

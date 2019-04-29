@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class MyCardView extends RelativeLayout{
         setSizes(height,width,context);
         mainLayout = new RelativeLayout(context);
         mainLayout.setBackgroundColor(color);
+        mainLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.ripple));
         mainLayoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         imageView = new ImageView(context);
