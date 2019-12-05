@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.github.jivimberg.library.AutoResizeTextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -54,7 +56,10 @@ public class Info extends AppCompatActivity implements OnMapReadyCallback {
         buildActionBar();
 
         tvCp.setOnClickListener(v -> {
-            if (MainActivity.secretCounter == SECRET_CLICK_AMOUNT) MainActivity.secretCounter = -1;
+            if (MainActivity.secretCounter == SECRET_CLICK_AMOUNT){
+                MainActivity.secretCounter = -1;
+                Toast.makeText(this,"כל הכבוד", Toast.LENGTH_LONG).show();
+            }
         });
 
         tvPhone = findViewById(R.id.tvPhone);

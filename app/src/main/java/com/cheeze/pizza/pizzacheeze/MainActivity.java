@@ -325,6 +325,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             } else if (!SplashActivity.myAppSettings.isAppStatus() && !developer) {
                 Toast.makeText(MainActivity.this, R.string.appInactive, Toast.LENGTH_SHORT).show();
+            }
+            else if (!SplashActivity.myAppSettings.redirectToHere.isEmpty() && !developer) {
+                String url = SplashActivity.myAppSettings.redirectToHere;
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             } else {
                 Intent intent = new Intent(MainActivity.this, ChooseType.class);
                 finish();
@@ -342,7 +348,11 @@ public class MainActivity extends AppCompatActivity {
         ivHomeScreenLogo = new ImageView(this);
         ivHomeScreenLogo.setImageResource(R.drawable.home_screen_logo_transporment);
         ivHomeScreenLogo.setId(View.generateViewId());
-        ivHomeScreenLogo.setOnClickListener(v -> secretCounter++);
+        ivHomeScreenLogo.setOnClickListener(v -> {
+            secretCounter++;
+            if (secretCounter == 7)
+                Toast.makeText(this, "נחמד", Toast.LENGTH_SHORT).show();
+        });
 
 
         ivHomeScreenLogoParams = new RelativeLayout.LayoutParams(center_logo_size, center_logo_size);
@@ -428,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             thread.join();
-            if(!successfulMail[0])
+            if (!successfulMail[0])
                 successfulMail[0] = sendBackupMail(order, receivers);
             return successfulMail[0];
         } catch (InterruptedException e) {

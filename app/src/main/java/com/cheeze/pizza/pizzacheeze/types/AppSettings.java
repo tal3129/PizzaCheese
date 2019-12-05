@@ -1,6 +1,7 @@
 package com.cheeze.pizza.pizzacheeze.types;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Tal on 03/10/17.
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 
 public class AppSettings {
+    public String redirectToHere = "";
     private double toppingPrice;
     private boolean luckyWheelEnabled;
     private String receiverMail;
@@ -26,6 +28,14 @@ public class AppSettings {
         this.appVersion=appVersion;
         this.minWheelSum=minWheelSum;
         this.appVersionCode = appVersionCode;
+    }
+
+    public String getRedirectToHere() {
+        return redirectToHere;
+    }
+
+    public void setRedirectToHere(String redirectToHere) {
+        this.redirectToHere = redirectToHere;
     }
 
     public AppSettings(){

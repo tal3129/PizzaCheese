@@ -129,13 +129,10 @@ public class ShoppingCart extends Activity implements View.OnClickListener {
                         Banner banner = new Banner(this, randomAvailableProduct());
                         banner.show();
                         prevPrice = SplashActivity.order.getCart().getSum();
-                        banner.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                if (SplashActivity.order.getCart().getSum() > prevPrice)
-                                    updateBannerPrices();
-                                createLoginDialog();
-                            }
+                        banner.setOnDismissListener(dialog -> {
+                            if (SplashActivity.order.getCart().getSum() > prevPrice)
+                                updateBannerPrices();
+                            createLoginDialog();
                         });
                     } else
                         createLoginDialog();
