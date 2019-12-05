@@ -318,20 +318,22 @@ public class MainActivity extends AppCompatActivity {
         ivOrderButton.setOnClickListener(v -> {
             // we can open the outdated app in test mode
             boolean developer = SplashActivity.TEST_MODE || secretCounter == -1;
+            String redirectionUrl = SplashActivity.myAppSettings.redirectToHere;
 
-            if (SplashActivity.needToUpdate && !developer) {
+            if (!redirectionUrl.isEmpty() && !developer) { //If we want to redirect
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(redirectionUrl));
+                Toast.makeText(MainActivity.this, "עברנו לאתר החדש, להתראות", Toast.LENGTH_LONG).show();
+                startActivity(i);
+            }
+            else if (SplashActivity.needToUpdate && !developer) {
                 Toast.makeText(MainActivity.this, R.string.plsUpdate, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.cheeze.pizza.pizzacheeze"));
                 startActivity(intent);
             } else if (!SplashActivity.myAppSettings.isAppStatus() && !developer) {
                 Toast.makeText(MainActivity.this, R.string.appInactive, Toast.LENGTH_SHORT).show();
             }
-            else if (!SplashActivity.myAppSettings.redirectToHere.isEmpty() && !developer) {
-                String url = SplashActivity.myAppSettings.redirectToHere;
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            } else {
+              else {
                 Intent intent = new Intent(MainActivity.this, ChooseType.class);
                 finish();
                 startActivity(intent);

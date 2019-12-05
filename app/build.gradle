@@ -70,23 +70,23 @@ dependencies {
     // wave loading view
     implementation 'me.itangqi.waveloadingview:library:0.3.5'
     // lucky wheel
-    implementation 'com.github.thanhniencung:LuckyWheel:-SNAPSHOT'
     // picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // ------------------- tal
-    /*
-    implementation files('D:/AndroidProjects/Pizzacheeze/libs/activation.jar')
-    implementation files('D:/AndroidProjects/Pizzacheeze/libs/additionnal.jar')
-    implementation files('D:/AndroidProjects/Pizzacheeze/libs/mail.jar')
-    */
+
+    implementation files('C:/Android_Projects/PizzaCheese/libs/activation.jar')
+    implementation files('C:/Android_Projects/PizzaCheese/libs/additionnal.jar')
+    implementation files('C:/Android_Projects/PizzaCheese/libs/mail.jar')
+   /*
 
     //------------------- yuval
     implementation files('D:/androidStudioProject/pizza cheeze Virisons/git/PizzaCheese/libs/activation.jar')
     implementation files('D:/androidStudioProject/pizza cheeze Virisons/git/PizzaCheese/libs/additionnal.jar')
     implementation files('D:/androidStudioProject/pizza cheeze Virisons/git/PizzaCheese/libs/mail.jar')
+    */
 
 }
 apply plugin: 'com.google.gms.google-services'
